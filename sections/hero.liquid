@@ -4,7 +4,7 @@
   {% for block in section.blocks %}
     <a class="hero-content" href="#">
         <video autoplay muted loop>
-      <source src="{{ section.settings.banner_video | video_url: 'master' }}" type="video/mp4">
+            {% comment %} <source src="{{ section.settings.banner_video | video_url}}" type="video/mp4"> {% endcomment %}
         </video>
     </a>
   {% endfor %}

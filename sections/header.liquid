@@ -4,22 +4,16 @@
   .navbar{
  background-color:{{ section.settings.header_bg }};
  }
+ .logo{
+  width: {{ section.settings.logo_width }}px;
+   height: {{ section.settings.logo_height }}px;
+ }
 {% endstyle %}
-
-{% comment %} <div class="currency-selector">
-      <form action="/cart/update" method="post">
-        <select name="currency" onchange="this.form.submit()">
-          {% for currency in shop.enabled_currencies %}
-            <option value="{{ currency }}" {% if currency == shop.currency %}selected{% endif %}>{{ currency }}</option>
-          {% endfor %}
-        </select>
-      </form>
-    </div> {% endcomment %}
-
 <nav>
   <div class="navbar">
     <button class="menu-button"><span class="material-symbols-outlined ">menu</span></button>
-    <a href=""><img src="{{ section.settings.logo | img_url: 'master' }}" alt="Your Logo" style="width: {{ section.settings.logo_width }}px; height: {{ section.settings.logo_height }}px; float: {{ section.settings.logo_align }};"></a>
+    <a href="" > <img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo">
+    </a>
     <ul class="navlinks">
       {% for link in linklists.main-menu.links %}
         {% assign child_list_handle = link.title | handleize %}
@@ -41,7 +35,7 @@
       {% endif %}
     </ul>
     <ul class="nav-buttons">
-    <li class="nav-btn"><a href="/#"><i class="fa-solid fa-magnifying-glass"></i></span></a></li>
+    <li class="nav-btn"><a href="/#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
     <li class="nav-btn"><a href="/#">INR/₹</a></li>
     <li class="nav-btn"><a href="/#"><span class="material-symbols-outlined">person</span></a></li>
     <li class="nav-btn cart"><a href="{{ routes.cart_url }}"><span class="material-symbols-outlined cart-icon">shopping_cart</span></a></li>
@@ -53,11 +47,11 @@
   "name": "header",
   "settings": [
     {
-            "type": "color",
-            "id": "header_bg",
-            "label": "Background color",
-            "default":"#000000"
-          },
+      "type": "color",
+      "id": "header_bg",
+      "label": "Background color",
+      "default": "#000000"
+    },
     {
       "type": "image_picker",
       "id": "logo",
@@ -70,7 +64,7 @@
       "min": 0,
       "max": 500,
       "step": 10,
-      "default": 211,
+      "default": 210, 
       "unit": "px"
     },
     {
@@ -81,7 +75,7 @@
       "max": 100,
       "step": 1,
       "default": 14,
-      "unit":"px"
+      "unit": "px"
     }
   ],
   "presets": [
@@ -90,6 +84,7 @@
     }
   ]
 }
+
 {% endschema %}
 
     

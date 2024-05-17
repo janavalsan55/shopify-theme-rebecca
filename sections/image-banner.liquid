@@ -1,27 +1,28 @@
-{{ 'banner.css'| asset_url| stylesheet_tag  }}
+{{ 'banner.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+
+    .banner_img {
+        background-image: url("{{ section.settings.banner_background | img_url : 'master' }}");
+    }
+    
+
+{% endstyle %}
+
 
 <div class="banner">
-    <a href="" class="banner_content">
-        <div class="image">
-
+    <a href="{{ section.settings.banner_heading_link }}" class="banner_content">
+        <div class="banner_img">
         </div>
     </a>
+    <div class="banner_inner_content">
+        <a href="{{ block.settings.banner_heading_link }}" class="banner_heading">{{ block.settings.banner_heading }}</a>
+        <a href="{{ block.settings.banner_description_link }}" class="banner_description">{{ block.settings.banner_description }}</a>
+        <button class="banner_button">{{ block.settings.banner_button_text }}</button>
+    </div>
 </div>
-<div class="banner">
-    <a href="">
-        <div class="banner_img"></div>
-    </a>
-      <div class="banner_inner_content">
-        <a href=""  class="banner_heading">WEEKEND GETAWAY</a>
-        <a href="" class="banner_discription">Explore weekwnders and totes perfect for
-          your next trip </a>
-        <button class="banner_button">
-          SHOP NOW
-        </button>
-      </div>
-  </div>
 
-  {% schema %}
+{% schema %}
     {
         "name": "banner",
         "settings": [
@@ -33,14 +34,53 @@
         ],
         "blocks": [
             {
-                "type": "banner-content",
+                "type": "banner-heading",
                 "name": "Banner heading",
                 "settings": [
                     {
                         "type": "richtext",
                         "id": "banner_heading",
-                        "label": "rich text",
-                        "default": "Browse our latest products"
+                        "label": "Rich Text",
+                        "default": "<p>Browse our latest products</p>"
+                    },
+                    {
+                        "type": "url",
+                        "id": "banner_heading_link",
+                        "label": "Link"
+                    }
+                ]
+            },
+            {
+                "type": "banner-description",
+                "name": "Banner description",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "banner_description",
+                        "label": "Text",
+                        "default": "Give customers details about the banner image(s) or content on the template"
+                    },
+                    {
+                        "type": "url",
+                        "id": "banner_description_link",
+                        "label": "Link"
+                    }
+                ]
+            },
+            {
+                "type": "banner-button-text",
+                "name": "Button",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "banner_button_text",
+                        "label": "Button text",
+                        "default": "Shop now"
+                    },
+                    {
+                        "type": "url",
+                        "id": "banner_button_link",
+                        "label": "Button link"
                     }
                 ]
             }
@@ -52,4 +92,5 @@
         ]
     }
     {% endschema %}
+       
     
