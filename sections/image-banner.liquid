@@ -1,0 +1,55 @@
+{{ 'banner.css'| asset_url| stylesheet_tag  }}
+
+<div class="banner">
+    <a href="" class="banner_content">
+        <div class="image">
+
+        </div>
+    </a>
+</div>
+<div class="banner">
+    <a href="">
+        <div class="banner_img"></div>
+    </a>
+      <div class="banner_inner_content">
+        <a href=""  class="banner_heading">WEEKEND GETAWAY</a>
+        <a href="" class="banner_discription">Explore weekwnders and totes perfect for
+          your next trip </a>
+        <button class="banner_button">
+          SHOP NOW
+        </button>
+      </div>
+  </div>
+
+  {% schema %}
+    {
+        "name": "banner",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "banner_background",
+                "label": "Banner image"
+            }   
+        ],
+        "blocks": [
+            {
+                "type": "banner-content",
+                "name": "Banner heading",
+                "settings": [
+                    {
+                        "type": "richtext",
+                        "id": "banner_heading",
+                        "label": "rich text",
+                        "default": "Browse our latest products"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Image banner"
+            }
+        ]
+    }
+    {% endschema %}
+    

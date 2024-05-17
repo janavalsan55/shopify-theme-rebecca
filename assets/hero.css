@@ -1,0 +1,19 @@
+.hero {
+    max-width: 100%;
+    position: relative;
+    height: 70vh;
+}
+
+.hero-content {
+    position: absolute;
+    max-width: 100%;
+    height: 100%;
+}
+
+.hero-content video {
+    position: absolute;
+    max-width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}

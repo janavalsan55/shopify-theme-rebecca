@@ -1,0 +1,29 @@
+{{ 'hero.css' | asset_url | stylesheet_tag }}
+
+<div class="hero">
+  {% for block in section.blocks %}
+    <a class="hero-content" href="#">
+        <video autoplay muted loop>
+      <source src="{{ section.settings.banner_video | video_url: 'master' }}" type="video/mp4">
+        </video>
+    </a>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+    "name": "Video Banner",
+    "settings": [
+        {
+            "type": "video",
+            "id": "banner_video",
+            "label": "Banner Video"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Video Banner"
+        }
+    ]
+}
+{% endschema %}

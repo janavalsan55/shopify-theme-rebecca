@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "template-homepage": {
+      "type": "template-index",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "template-homepage"
+  ]
+}

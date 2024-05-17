@@ -1,0 +1,95 @@
+{{ 'header.css'|asset_url|stylesheet_tag }}
+
+{% style %}
+  .navbar{
+ background-color:{{ section.settings.header_bg }};
+ }
+{% endstyle %}
+
+{% comment %} <div class="currency-selector">
+      <form action="/cart/update" method="post">
+        <select name="currency" onchange="this.form.submit()">
+          {% for currency in shop.enabled_currencies %}
+            <option value="{{ currency }}" {% if currency == shop.currency %}selected{% endif %}>{{ currency }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div> {% endcomment %}
+
+<nav>
+  <div class="navbar">
+    <button class="menu-button"><span class="material-symbols-outlined ">menu</span></button>
+    <a href=""><img src="{{ section.settings.logo | img_url: 'master' }}" alt="Your Logo" style="width: {{ section.settings.logo_width }}px; height: {{ section.settings.logo_height }}px; float: {{ section.settings.logo_align }};"></a>
+    <ul class="navlinks">
+      {% for link in linklists.main-menu.links %}
+        {% assign child_list_handle = link.title | handleize %}
+        {% if linklists[child_list_handle].links != blank %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          <li>[{% for childlink in linklists[child_list_handle].links %}<a href="{{ childlink.url }}">{{ childlink.title | escape }}</a>{% endfor %}]</li>
+        {% else %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <li><a href="/account">account</a></li>
+          <li>{{ 'log out' | customer_logout_link }}</li>
+        {% else %}
+          <li>{{ 'log in' | customer_login_link }}</li>
+          <li>{{ 'register' | customer_register_link }}</li>
+        {% endif %}
+      {% endif %}
+    </ul>
+    <ul class="nav-buttons">
+    <li class="nav-btn"><a href="/#"><i class="fa-solid fa-magnifying-glass"></i></span></a></li>
+    <li class="nav-btn"><a href="/#">INR/₹</a></li>
+    <li class="nav-btn"><a href="/#"><span class="material-symbols-outlined">person</span></a></li>
+    <li class="nav-btn cart"><a href="{{ routes.cart_url }}"><span class="material-symbols-outlined cart-icon">shopping_cart</span></a></li>
+    </ul>
+  </div>
+</nav>
+{% schema %}
+{
+  "name": "header",
+  "settings": [
+    {
+            "type": "color",
+            "id": "header_bg",
+            "label": "Background color",
+            "default":"#000000"
+          },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 211,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo Height",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 14,
+      "unit":"px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "header"
+    }
+  ]
+}
+{% endschema %}
+
+    

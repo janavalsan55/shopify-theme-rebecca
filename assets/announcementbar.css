@@ -1,0 +1,12 @@
+.announcement{
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 35px;
+}
+.announcement a{
+    text-decoration: none;
+}
+
