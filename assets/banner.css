@@ -14,31 +14,32 @@
     position: relative;
     z-index: -1;
 }
-
 .banner_inner_content {
     display: flex;
     flex-direction: column;
+    gap: 0;
     position: absolute;
     z-index: 1; 
     top: 50%; 
-    transform: translateY(-50%); 
+    transform: translateY(-50%) translateX(50%);
 }
 
-.banner_heading a {
+.banner_heading{
     text-decoration: none;
     color: white;
     font-size: 48px;
     text-decoration: none;
+    margin: 0;
 }
 
-.banner_description a {
+.banner_description{
     text-decoration: none;
     color: white;
     font-size: 16px;
     text-decoration: none;
 }
 
-.banner {
+.banner_button {
     border: none;
     background: transparent;
     color: white;
