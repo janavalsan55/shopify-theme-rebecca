@@ -1,4 +1,7 @@
 {{ 'banner.css' | asset_url | stylesheet_tag }}
+{{ 'banner.js' | asset_url | script_tag }}
+
+
 
 {% style %}
 
@@ -10,16 +13,20 @@
 {% endstyle %}
 
 
-<div class="banner">
+
+{% assign sectionId = section.id | handleize %}
+
+<div class="banner" id="banner-{{ sectionId }}">
     <a href="{{ section.settings.banner_heading_link }}" class="banner_content">
-        <div class="banner_img"></div>
+        <div class="banner_img" style="background-image: url('{{ section.settings.banner_background | img_url: "master" }}');"></div>
     </a>
     <div class="banner_inner_content">
-        <a href="{{ section.settings.banner_heading_link }}" class="banner_heading">{{ section.blocks[0].settings.banner_head }}</a>
-        <a href="{{ section.blocks[1].settings.banner_description_link }}" class="banner_description">{{ section.blocks[1].settings.banner_des }}</a>
-        <button class="banner_button">{{ section.blocks[2].settings.banner_button_text }}</button>
+        <span><a href="{{ section.settings.banner_heading_link }}" class="banner_heading">{{ section.blocks[0].settings.banner_head }}</a></span>
+        <p><a href="{{ section.blocks[1].settings.banner_description_link }}" class="banner_description">{{ section.blocks[1].settings.banner_des }}</a></p>
+        <span><a href="{{ section.blocks[2].settings.banner_button_link }}" class="banner_button">{{ section.blocks[2].settings.banner_button_text }}</a></span>
     </div>
 </div>
+
 
 
 {% schema %}
@@ -92,5 +99,6 @@
         ]
     }
     {% endschema %}
+
        
     

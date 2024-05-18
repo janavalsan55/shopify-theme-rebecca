@@ -1,6 +1,7 @@
 .banner{
     max-width: 100%;
     height: 90vh;
+    position: relative;
 }
 .banner_img {
     max-width: 100%;
@@ -17,13 +18,16 @@
 .banner_inner_content {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
     gap: 0;
     position: absolute;
     z-index: 1; 
     top: 50%; 
-    transform: translateY(-50%) translateX(50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-
 .banner_heading{
     text-decoration: none;
     color: white;
@@ -40,10 +44,21 @@
 }
 
 .banner_button {
-    border: none;
-    background: transparent;
+    text-decoration: none;
     color: white;
-    font-size: 12px;
-    font-weight: bold;
-    border-bottom: 2px solid white;
+    font-size: 14px;
+    position: relative;
+    padding-bottom: 3px; 
+    /* display: inline-block;  */
 }
+
+.banner_button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px; 
+    background-color: white;
+}
+

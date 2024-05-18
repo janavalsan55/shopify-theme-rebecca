@@ -4,7 +4,7 @@
   {% for block in section.blocks %}
     <a class="hero-content" href="#">
         <video autoplay muted loop>
-            {% comment %} <source src="{{ section.settings.banner_video | video_url}}" type="video/mp4"> {% endcomment %}
+            <source src="{{ section.settings.banner_video}}" type="video/mp4">
         </video>
     </a>
   {% endfor %}
@@ -12,18 +12,18 @@
 
 {% schema %}
 {
-    "name": "Video Banner",
-    "settings": [
-        {
-            "type": "video",
-            "id": "banner_video",
-            "label": "Banner Video"
-        }
-    ],
-    "presets": [
-        {
-            "name": "Video Banner"
-        }
-    ]
+  "name": "Video Banner",
+  "settings": [
+    {
+      "type": "url",
+      "id": "banner_video",
+      "label": "Banner Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Banner"
+    }
+  ]
 }
 {% endschema %}
