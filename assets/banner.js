@@ -1,6 +1,5 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-    var sectionId = '{{ section.id }}'; 
+    var sectionId = '{{ section.id }}';
 
     var defaultData = {
         banner_background: 'default_banner_image.jpg',
@@ -22,15 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
         banner_button_link: '{{ section.blocks[2].settings.banner_button_link }}'
     };
 
-
     initializeSection(sectionId, sectionData);
 
-  
     function initializeSection(sectionId, data) {
-      
-        var section = document.getElementById('banner-section-' + sectionId);
+        var section = document.getElementById('banner-' + sectionId);
 
-      
         section.querySelector('.banner_img').style.backgroundImage = 'url(' + data.banner_background + ')';
         section.querySelector('.banner_heading').innerHTML = '<a href="' + data.banner_heading_link + '">' + data.banner_head + '</a>';
         section.querySelector('.banner_description').innerHTML = '<a href="' + data.banner_description_link + '">' + data.banner_des + '</a>';

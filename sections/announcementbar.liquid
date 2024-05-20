@@ -11,7 +11,7 @@
 
 <div class="announcement">
   {% for block in section.blocks %}
-    <a class="announce-text" style="font-size: 13px; font-weight: bold; " href="{{ block.settings.announcement_link }}">
+    <a class="announce-text" href="{{ block.settings.announcement_link }}">
       {{ block.settings.announcement_text }}
     </a>
   {% endfor %}

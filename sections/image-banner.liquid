@@ -2,103 +2,131 @@
 {{ 'banner.js' | asset_url | script_tag }}
 
 
-
 {% style %}
+    
 
     .banner_img {
         background-image: url("{{ section.settings.banner_background | img_url : 'master' }}");
     }
-    
-
 {% endstyle %}
 
 
-
-{% assign sectionId = section.id | handleize %}
+    {% assign sectionId = section.id | handleize %}
 
 <div class="banner" id="banner-{{ sectionId }}">
     <a href="{{ section.settings.banner_heading_link }}" class="banner_content">
         <div class="banner_img" style="background-image: url('{{ section.settings.banner_background | img_url: "master" }}');"></div>
     </a>
     <div class="banner_inner_content">
-        <span><a href="{{ section.settings.banner_heading_link }}" class="banner_heading">{{ section.blocks[0].settings.banner_head }}</a></span>
-        <p><a href="{{ section.blocks[1].settings.banner_description_link }}" class="banner_description">{{ section.blocks[1].settings.banner_des }}</a></p>
-        <span><a href="{{ section.blocks[2].settings.banner_button_link }}" class="banner_button">{{ section.blocks[2].settings.banner_button_text }}</a></span>
+        {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'banner-heading' %}
+                        {% if block.settings.banner_head %}
+                            <span>
+                                <a href="{{ block.settings.banner_heading_link }}" class="banner_heading">
+                                    {{ block.settings.banner_head }}
+                                </a>
+                            </span>
+                        {% endif %}
+                    {% when 'banner-description' %}
+                        {% if block.settings.banner_des %}
+                            <p>
+                                <a href="{{ block.settings.banner_description_link }}" class="banner_description">
+                                    {{ block.settings.banner_des }}
+                                </a>
+                            </p>
+                        {% endif %}
+                    {% when 'banner-button-text' %}
+                        {% if block.settings.banner_button_text %}
+                            <span>
+                                <a href="{{ block.settings.banner_button_link }}" class="banner_button">
+                                    {{ block.settings.banner_button_text }}
+                                </a>
+                            </span>
+                        {% endif %}
+                {% endcase %}
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 
 
-
 {% schema %}
-    {
-        "name": "banner",
-        "settings": [
-            {
-                "type": "image_picker",
-                "id": "banner_background",
-                "label": "Banner image"
-            }   
-        ],
-        "blocks": [
-            {
-                "type": "banner-heading",
-                "name": "Banner heading",
-                "settings": [
-                    {
-                        "type": "text",
-                        "id": "banner_head",
-                        "label": "Text",
-                        "default": "Browse our latest products"
-                    },
-                    {
-                        "type": "url",
-                        "id": "banner_heading_link",
-                        "label": "Link"
-                    }
-                ]
-            },
-            {
-                "type": "banner-description",
-                "name": "Banner description",
-                "settings": [
-                    {
-                        "type": "text",
-                        "id": "banner_des",
-                        "label": "Text",
-                        "default": "Give customers details about the banner image(s) or content on the template"
-                    },
-                    {
-                        "type": "url",
-                        "id": "banner_description_link",
-                        "label": "Link"
-                    }
-                ]
-            },
-            {
-                "type": "banner-button-text",
-                "name": "Button",
-                "settings": [
-                    {
-                        "type": "text",
-                        "id": "banner_button_text",
-                        "label": "Button text",
-                        "default": "Shop now"
-                    },
-                    {
-                        "type": "url",
-                        "id": "banner_button_link",
-                        "label": "Button link"
-                    }
-                ]
-            }
-        ],
-        "presets": [
-            {
-                "name": "Image banner"
-            }
-        ]
-    }
-    {% endschema %}
+{
+    "name": "Banner",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "banner_background",
+            "label": "Banner Image"
+        },
+        {
+            "type": "url",
+            "id": "banner_heading_link",
+            "label": "Heading Link"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "banner-heading",
+            "name": "Banner Heading",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "banner_head",
+                    "label": "Text",
+                    "default": "Browse our latest products"
+                },
+                {
+                    "type": "url",
+                    "id": "banner_heading_link",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "banner-description",
+            "name": "Banner Description",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "banner_des",
+                    "label": "Text",
+                    "default": "Give customers details about the banner image(s) or content on the template"
+                },
+                {
+                    "type": "url",
+                    "id": "banner_description_link",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "banner-button-text",
+            "name": "Button",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "banner_button_text",
+                    "label": "Button Text",
+                    "default": "Shop Now"
+                },
+                {
+                    "type": "url",
+                    "id": "banner_button_link",
+                    "label": "Button Link"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Image Banner"
+        }
+    ]
+}
+{% endschema %}
 
        
     

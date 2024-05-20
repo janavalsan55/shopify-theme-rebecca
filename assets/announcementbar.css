@@ -8,5 +8,7 @@
 }
 .announcement a{
     text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
 }
 
