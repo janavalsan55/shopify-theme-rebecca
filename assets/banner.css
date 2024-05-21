@@ -12,7 +12,6 @@
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
     position: absolute;
     top: 0;
     left: 0;
@@ -24,14 +23,14 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    gap: 1rem;
+    gap: 0;
     z-index: 1;
 }
 
 .banner_heading {
     text-decoration: none;
     color: white;
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin: 0;
 }
 
@@ -64,5 +63,11 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+    }
+    .banner_heading{
+        font-size: 1.5rem;
+    }
+    .banner_description{
+        font-size: .8rem;
     }
 }

@@ -1,0 +1,32 @@
+.collection-list {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.collection-item {
+    width: calc(33.33%); 
+    position: relative;
+}
+
+.collection-image-wrapper {
+    max-width: 100%;
+    position: relative;
+    height: 460px;
+}
+
+.collection-image {
+    width: 100%;
+    height: 460px;
+}
+
+.collection-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    text-align: center; 
+    z-index: 1;
+    color: white;
+}
