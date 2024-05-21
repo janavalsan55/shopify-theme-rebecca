@@ -2,7 +2,7 @@
 
 
 <div class="collection-list">
-  {% for block in section.blocks %}
+  {% for collection in collections %}
     <a href="{{ collection.url }}" class="collection-item">
       <div class="collection-image-wrapper">
         <img class="collection-image" src="{{ collection.image.src | img_url: 'medium' }}" alt="{{ collection.title }}">
@@ -11,11 +11,13 @@
     </a>
   {% endfor %}
 </div>
+
  
 {% schema  %}
 {
     "name": "collection",
     "settings": [
+
     ],
     "blocks": [
         {
@@ -26,10 +28,6 @@
                     "type": "collection",
                     "id": "collection",
                     "label": "Select collection"
-                },{
-                  "type": "image_picker",
-                  "id": "image",
-                  "label": "select image for collection"
                 }
             ]
         }
