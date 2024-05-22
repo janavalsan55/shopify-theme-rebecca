@@ -1,0 +1,24 @@
+.footer{
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 48px 60px 60px;
+  
+}
+.menu{
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  
+}
+.menu_item ul {
+  list-style-type: none;
+  padding: 0;
+}
+.menu_item ul li a {
+  text-decoration: none;
+}
+
+
+

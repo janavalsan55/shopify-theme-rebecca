@@ -1,0 +1,180 @@
+{{ 'footer.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+footer .footer {
+  max-width: 100%;
+  height: auto;
+  background-color: {{ section.settings.footer_background_color }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-left: {{ section.settings.padding_left }}px;
+  padding-right: {{ section.settings.padding_right }}px;
+}
+.footer_logo{
+  width: {{ section.settings.ftr_logo_width }}px;
+  height: {{ section.settings.ftr_logo_height }}px;
+}
+{% endstyle %}
+
+<footer>
+  <div class="footer">
+    <div class="footer_company_information">
+      <a href="#">
+        <img src="{{ section.settings.ftr_logo | img_url: 'medium' }}" class="footer_logo" alt="Your Logo">
+      </a>
+    </div>
+    <div class="menu">
+      {% for block in section.blocks %}
+        {% if block.type == 'footer_menu' %}
+          <div class="menu_item_container">
+            <div  class="menu_item ">
+            <ul>
+              <p class="head">{{ block.settings.heading_text }}</p>
+              {% assign menu = linklists[block.settings.menu] %}
+              {% if menu %}
+                {% for link in menu.links %}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</footer>
+
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "color",
+      "id": "footer_background_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "footer_text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "ftr_logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "ftr_logo_width",
+      "label": "Logo Width",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 210,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "ftr_logo_height",
+      "label": "Logo Height",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Email Signup Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email_signup",
+      "label": "Show Email Signup Block",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "email_signup_label",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Padding Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Padding Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "footer_menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_text",
+          "label": "Heading Text",
+          "default": "Menu Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "category": "Footer"
+    }
+  ]
+}
+{% endschema %}
