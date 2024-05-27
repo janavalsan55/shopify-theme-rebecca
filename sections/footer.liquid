@@ -10,6 +10,10 @@ footer .footer {
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
 }
+.menu_item ul li a {
+  color: {{ section.settings.footer_text_color }};
+}
+
 .footer_logo{
   width: {{ section.settings.ftr_logo_width }}px;
   height: {{ section.settings.ftr_logo_height }}px;
@@ -25,7 +29,7 @@ footer .footer {
     </div>
     <div class="menu">
       {% for block in section.blocks %}
-        {% if block.type == 'footer_menu' %}
+        {% comment %} {% if block.type == 'footer_menu' %} {% endcomment %}
           <div class="menu_item_container">
             <div  class="menu_item ">
             <ul>
@@ -39,7 +43,7 @@ footer .footer {
             </ul>
             </div>
           </div>
-        {% endif %}
+        {% comment %} {% endif %} {% endcomment %}
       {% endfor %}
     </div>
   </div>
@@ -170,6 +174,7 @@ footer .footer {
       ]
     }
   ],
+  
   "presets": [
     {
       "name": "Footer",

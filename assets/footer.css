@@ -4,7 +4,7 @@
   flex-flow: row wrap;
   justify-content: space-between;
   padding: 48px 60px 60px;
-  
+
 }
 .menu{
   display: flex;
@@ -16,9 +16,5 @@
   list-style-type: none;
   padding: 0;
 }
-.menu_item ul li a {
-  text-decoration: none;
-}
-
 
 

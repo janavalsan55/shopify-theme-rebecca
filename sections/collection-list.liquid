@@ -5,7 +5,7 @@
   {% for collection in collections %}
     <a href="{{ collection.url }}" class="collection-item">
       <div class="collection-image-wrapper">
-        <img class="collection-image" src="{{ collection.image.src | img_url: 'medium' }}" alt="{{ collection.title }}">
+        <img class="collection-image" src="{{ collection.image.src | img_url: 'master' }}" alt="{{ collection.title }}">
         <div class="collection-title">{{ collection.title }}</div>
       </div>
     </a>
