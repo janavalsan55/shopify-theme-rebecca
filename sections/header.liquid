@@ -1,9 +1,10 @@
 {{ 'header.css'|asset_url|stylesheet_tag }}
+{{ 'header.js'| asset_url| script_tag }}
 
 {% style %}
   .navbar{
- background-color:{{ section.settings.header_bg }};
- max-width: 100%;
+    background-color:{{ section.settings.header_bg }};
+    max-width: 100%;
     height: 50px;
     display: flex;
     flex-direction: row;
@@ -13,89 +14,99 @@
     padding-right: 20px;
     position: sticky;
     top: 0;
-    z-index: 1000; 
+    z-index: 1000;
  }
  .logo{
   width: {{ section.settings.logo_width }}px;
    height: {{ section.settings.logo_height }}px;
  }
 {% endstyle %}
-<nav>
-  <div class="navbar">
-    <button class="menu-button"><span class="material-symbols-outlined">menu</span></button>
-    <a href=""> <img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo"></a>
-    <ul class="navlinks">
-      {% for link in linklists.main-menu.links %}
-        <li>
-          <a href="{{ link.url }}">{{ link.title }}</a>
-          {% if link.links and link.links.size > 0 %}
-            <ul class="sub-submenu">
-              {% for subSublink in link.links %}
-                <li><a href="{{ subSublink.url }}">{{ subSublink.title }}</a></li>
+  <nav>
+    <div class="navbar">
+      <button class="menu-button"><span class="material-symbols-outlined">menu</span></button>
+      <a href=""><img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo"></a>
+      <div class="menu-item-div">
+          <ul class="menu-list">
+              {% for link in linklists.main-menu.links %}
+                  {% assign child_list_handle = link.title | handleize %}
+                  {% if linklists[child_list_handle].links != blank %}
+                      <li class="main-link mega-menu">
+                          <a href="{{ link.url }}" class="mega-menu-btn">{{ link.title }}</a>
+                          <div class="mega-menu-content">
+                              {% for childlink in linklists[child_list_handle].links %}
+                                  <div class="mega-menu-section">
+                                      <span class="submenu-title">{{ childlink.title }}</span>
+                                      {% assign sub_child_list_handle = childlink.title | handleize %}
+                                      {% if linklists[sub_child_list_handle].links != blank %}
+                                          <ul class="sub-links">
+                                              {% for subchildlink in linklists[sub_child_list_handle].links %}
+                                                  <li><a href="{{ subchildlink.url }}" class="sub-link">{{ subchildlink.title | escape }}</a></li>
+                                              {% endfor %}
+                                          </ul>
+                                      {% endif %}
+                                  </div>
+                              {% endfor %}
+                          </div>
+                      </li>
+                  {% else %}
+                      <li class="main-link"><a href="{{ link.url }}" class="main-link">{{ link.title }}</a></li>
+                  {% endif %}
               {% endfor %}
-            </ul>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-    <ul class="nav-buttons">
-      <li class="nav-btn"><a href="/#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
-      <li class="nav-btn"><a href="/#">INR/₹</a></li>
-      <li class="nav-btn"><a href="/#"><span class="material-symbols-outlined">person</span></a></li>
-      <li class="nav-btn cart"><a href="{{ routes.cart_url }}"><span class="material-symbols-outlined cart-icon">shopping_cart</span></a></li>
-    </ul>
-  </div>
+          </ul>
+      </div>
+      <div>
+          <ul class="nav-buttons">
+              <li class="nav-btn"><a href="/#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+              <li class="nav-btn"><a href="/#">INR/₹</a></li>
+              <li class="nav-btn"><a href="/#"><span class="material-symbols-outlined">person</span></a></li>
+              <li class="nav-btn cart"><a href="{{ routes.cart_url }}"><span class="material-symbols-outlined cart-icon">shopping_cart</span></a></li>
+          </ul>
+      </div>
+  </div> 
 </nav>
-
-
-
-
 {% schema %}
-  {
-    "name": "header",
-    "settings": [
-      {
-        "type": "color",
-        "id": "header_bg",
-        "label": "Background color",
-        "default": "#000000"
-      },
-      {
-        "type": "image_picker",
-        "id": "logo",
-        "label": "Logo"
-      },
-      {
-        "type": "range",
-        "id": "logo_width",
-        "label": "Logo Width",
-        "min": 0,
-        "max": 500,
-        "step": 10,
-        "default": 210, 
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "logo_height",
-        "label": "Logo Height",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "default": 14,
-        "unit": "px"
-      }
-    ],
-    "presets": [
-      {
-        "name": "header"
-      }
-    ]
-  }
-  
-  {% endschema %}
-  
-  
-  
+{
+  "name": "header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 210, 
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo Height",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "header"
+    }
+  ]
+}
+
+{% endschema %}
 
     
