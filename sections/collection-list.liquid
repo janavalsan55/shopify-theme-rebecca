@@ -1,42 +1,45 @@
-{{ 'collection-list.css'|asset_url|stylesheet_tag }}
+ {{ 'collection-list.css' | asset_url | stylesheet_tag }}
+ {{ 'collection-slider.js'| asset_url | script_tag }}
 
 
 <div class="collection-list">
-  {% for collection in collections %}
-    <a href="{{ collection.url }}" class="collection-item">
-      <div class="collection-image-wrapper">
-        <img class="collection-image" src="{{ collection.image.src | img_url: 'master' }}" alt="{{ collection.title }}">
-        <div class="collection-title">{{ collection.title }}</div>
-      </div>
-    </a>
+  {% for block in section.blocks %}
+    {% if block.settings.collection %}
+      {% assign selected_collection = collections[block.settings.collection] %}
+      <a href="{{ selected_collection.url }}" class="collection-item">
+        <div class="collection-image-wrapper">
+          <img class="collection-image" src="{{ selected_collection.image.src | img_url: 'master' }}" alt="{{ selected_collection.title }}">
+          <div class="collection-title">{{ selected_collection.title }}</div>
+        </div>
+      </a>
+    {% endif %}
   {% endfor %}
 </div>
 
- 
-{% schema  %}
+
+{% schema %}
 {
-    "name": "collection",
-    "settings": [
-
-    ],
-    "blocks": [
+  "name": "Collection List",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
         {
-        "type": "collection",    
-        "name": "collection",
-            "settings": [
-                {
-                    "type": "collection",
-                    "id": "collection",
-                    "label": "Select collection"
-                }
-            ]
+          "type": "collection",
+          "id": "collection",
+          "label": "Select collection"
         }
-    ],
-    "presets": [
-        {
-            "name": "collection list"
-        }
-    ]
-
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List",
+      "category": "Custom"
+    }
+  ]
 }
 {% endschema %}
+
