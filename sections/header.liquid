@@ -2,29 +2,18 @@
 {{ 'header.js'| asset_url| script_tag }}
 
 {% style %}
-  .navbar{
-    background-color:{{ section.settings.header_bg }};
-    max-width: 100%;
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
- }
+.navbar {
+    background-color: {{ section.settings.header_bg }};
+}
  .logo{
   width: {{ section.settings.logo_width }}px;
    height: {{ section.settings.logo_height }}px;
  }
 {% endstyle %}
-  <nav>
-    <div class="navbar">
+<nav>
+  <div class="navbar">
       <button class="menu-button"><span class="material-symbols-outlined">menu</span></button>
-      <a href=""><img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo"></a>
+      <a href="" class="logo-content"><img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo"></a>
       <div class="menu-item-div">
           <ul class="menu-list">
               {% for link in linklists.main-menu.links %}
@@ -46,6 +35,11 @@
                                       {% endif %}
                                   </div>
                               {% endfor %}
+                              {% if section.settings.menu_image_1 %}
+                                  <div class="mega-menu-image">
+                                      <img src="{{ section.settings.menu_image_1 | img_url: 'medium' }}" alt="Menu Image">
+                                  </div>
+                              {% endif %}
                           </div>
                       </li>
                   {% else %}
@@ -63,6 +57,8 @@
           </ul>
       </div>
   </div> 
+</nav>
+
 </nav>
 {% schema %}
 {
@@ -98,6 +94,20 @@
       "step": 1,
       "default": 14,
       "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "menu_image_1",
+      "label": "Menu Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "menu_image_2",
+      "label": "Menu Image 2"
     }
   ],
   "presets": [

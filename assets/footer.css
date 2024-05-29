@@ -2,8 +2,7 @@
   display: flex;
   flex-direction: row;
   flex-flow: row wrap;
-  justify-content: space-between;
-  padding: 48px 60px 60px;
+  justify-content: space-evenly;
 
 }
 .menu{
@@ -16,5 +15,73 @@
   list-style-type: none;
   padding: 0;
 }
+.menu_item a{
+ text-decoration: none;
+}
+.input {
+  background: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  width: 190px;
+  margin-top: 10px;
 
+}
+
+.input::placeholder {
+  color: white;
+  font-weight: bold;
+  font-size: 10px;
+
+}
+
+#inp {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+form {
+  border-bottom: 1px solid white;
+  margin-bottom: 20px;
+}
+
+.social li {
+  list-style: none;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.form{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
+@media only screen and (max-width: 1024px) {
+  .footer_company_information{
+    margin-bottom: 60px;
+    
+  }
+  .menu{
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 30px;
+  }
+}
+@media only screen and (max-width: 540px) {
+  .menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.menu-item {
+    padding: 20px;
+    box-sizing: border-box;
+}
+}
 

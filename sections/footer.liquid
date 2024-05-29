@@ -12,11 +12,15 @@ footer .footer {
 }
 .menu_item ul li a {
   color: {{ section.settings.footer_text_color }};
+  
 }
 
 .footer_logo{
   width: {{ section.settings.ftr_logo_width }}px;
   height: {{ section.settings.ftr_logo_height }}px;
+}
+.head{
+  color: {{ section.settings.footer_text_color }};
 }
 {% endstyle %}
 
@@ -26,6 +30,20 @@ footer .footer {
       <a href="#">
         <img src="{{ section.settings.ftr_logo | img_url: 'medium' }}" class="footer_logo" alt="Your Logo">
       </a>
+      <form action="">
+        <section class="form">
+          <input class="input"  placeholder="Sign up for emails & 15% off ">
+          <button id="inp"><i class="fa-solid fa-angle-right fa-xs" style="color: #ffffff;"></i></button>
+        </section>
+      </form>
+      <div class="social">
+        <li><a href=""><i class="fa-brands fa-facebook fa-xm" style="color: #ffffff;"></i></a></li>
+        <li><a href=""><i class="fa-brands fa-instagram fa-xm" style="color: #ffffff;"></i> </a></li>
+        <li><a href=""><i class="fa-brands fa-youtube fa-xm" style="color: #ffffff;"></i></a></li>
+        <li><a href=""><i class="fa-brands fa-tiktok fa-xm" style="color: #ffffff;"></i> </a></li>
+        <li><a href=""><i class="fa-brands fa-twitter fa-xm" style="color: #ffffff;"></i> </a></li>
+        <li><a href=""><i class="fa-brands fa-pinterest fa-xm" style="color: #ffffff;"></i> </a></li>
+      </div>
     </div>
     <div class="menu">
       {% for block in section.blocks %}
