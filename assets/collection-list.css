@@ -11,22 +11,13 @@
 .collection-image-wrapper {
     max-width: 100%;
     position: relative;
-    height: 460px;
-}
+}  
 
 .collection-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
-.collection-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2rem;
-    text-align: center;
-    z-index: 1;
-    color: white;
+.collections-slider{
+    display: none;
 }

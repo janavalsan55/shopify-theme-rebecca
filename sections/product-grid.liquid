@@ -1,0 +1,67 @@
+{{"product-grid.css" |  asset_url |  stylesheet_tag}}
+
+{%- paginate collection.products by section.settings.products_per_page -%}
+<div class="product-grid">
+        {% for product in collection.products %}
+           
+                <div class="productcard">
+                    <div class="img">
+                        <img src="{{ product.featured_image | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+                    </div>
+                    <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
+                    <button class="addtofav">
+                        <span class="material-symbols-outlined">
+                            favorite
+                        </span>
+                    </button>
+                    <button class="addtocart">QUICK ADD</button>
+                    <div class="product-info">
+                        <span>
+                            <a class="info" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                        </span>
+                        <span class="price">{{ product.price | money }}</span>
+                    </div>
+                </div>
+          
+        {% else %}
+            <p>no matches</p>
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+            {{ paginate | default_pagination }}
+        {% endif %}
+</div>
+{%- endpaginate -%}
+
+{% schema %}
+    {
+        "name": "product grid",
+        "settings": [
+            {
+      "type": "number",
+      "id": "products_per_page",
+      "label": "products per page"
+      
+    }, {
+      "type": "header",
+      "content": "collection image height"
+    },
+    {
+  "type": "range",
+  "id": "image_height",
+  "label": "Image Height",
+  "min": 0,
+  "max": 500,
+  "step": 10,
+  "default": 50,
+  "unit": "px"
+}
+            ],
+            "presets": [
+          {
+            "name": "Product Grid",
+            "category": "Custom"
+          }
+        ]
+    }
+    
+    {% endschema %} 

@@ -1,0 +1,64 @@
+{{ "secnav.css" | asset_url |  stylesheet_tag }}
+
+{% style %}
+    .secnav{
+        margin-top: {{ section.settings.margin_top }}px;
+        margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+{% endstyle %}
+
+
+<div class="secnav">
+    <div class="filter">
+      <button id="filterbtn"><span class="material-symbols-outlined">
+        tune
+        </span>  <span style="font-size: 14px;">Filter</span></button>
+    </div>
+    <div class="sortby">
+      <button id="sortbtn">
+        <span>Sort by</span>
+        <span class="material-symbols-outlined">
+          expand_more
+          </span></button>
+    </div>
+  </div>
+
+
+  {% schema %}
+    {
+        "name": "filter bar",
+        "settings": [
+            {
+      "type": "header",
+      "content": "Margin Settings"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    }
+            ],
+            "presets": [
+          {
+            "name": "Filter Bar",
+            "category": "Custom"
+          }
+        ]
+    }
+    
+    {% endschema %} 

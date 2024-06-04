@@ -1,0 +1,99 @@
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0; 
+    padding: 0;
+}
+
+.productcard {
+    width: calc(25%);
+    position: relative;
+    height: 450px;
+
+}
+.addtofav,
+.addtocart {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.productcard:hover .addtofav,
+.productcard:hover .addtocart {
+    opacity: 1;
+    visibility: visible;
+}
+.img img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: -1;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.product-info {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+
+
+}
+
+.info {
+    z-index: 1;
+    font-size: .8rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    width: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    text-transform: uppercase;
+}
+
+.price {
+    font-size: .9rem;
+    font-weight: bold;
+}
+.product-highlight {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: .8rem;
+    padding: 1px 1px;
+    border: none; 
+    letter-spacing: 1px;
+}
+
+.product-highlight.has-tags {
+    border: 1px solid black; 
+}
+.addtofav{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+.material-symbols-outlined{
+    font-size: 1.2rem;
+}
+.addtocart{
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 40px;
+    border: 1px solid black;
+    font-size: .6rem;
+    font-weight: bold;
+    background-color: gainsboro;
+}

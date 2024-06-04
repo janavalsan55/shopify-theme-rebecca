@@ -67,7 +67,7 @@
     flex-direction: row;
     position: absolute;
     justify-content: center;
-    top: 50px; /* Positioned at the bottom of the navbar */
+    top: 50px; 
     left: 0;
     background-color: white;
     width: 100%;

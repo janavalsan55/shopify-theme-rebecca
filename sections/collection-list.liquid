@@ -1,45 +1,166 @@
- {{ 'collection-list.css' | asset_url | stylesheet_tag }}
- {{ 'collection-slider.js'| asset_url | script_tag }}
+{{ 'collection-list.css' | asset_url | stylesheet_tag }}
+{{ 'collection-slider.js'| asset_url | script_tag }}
 
+{% style %}
+  .collection-list{
+    padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-left: {{ section.settings.padding_left }}px;
+  padding-right: {{ section.settings.padding_right }}px;
+  }
+  .collection-image-wrapper{
+   height: {{ section.settings.image_height }}px;
+ }
+ .collection-title {
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  z-index: 1;
+  color: white;
+  font-size: {{ section.settings.title-fontsize }}px;
+  }
+  .align-top {
+    top: 10%;
+    transform: translate(-50%, -50%);
+  }
+  .align-middle {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .align-bottom {
+    bottom: 10%;
+    transform: translate(-50%, -50%);
+  }
+{% endstyle %}
 
 <div class="collection-list">
-  {% for block in section.blocks %}
-    {% if block.settings.collection %}
-      {% assign selected_collection = collections[block.settings.collection] %}
-      <a href="{{ selected_collection.url }}" class="collection-item">
-        <div class="collection-image-wrapper">
-          <img class="collection-image" src="{{ selected_collection.image.src | img_url: 'master' }}" alt="{{ selected_collection.title }}">
-          <div class="collection-title">{{ selected_collection.title }}</div>
-        </div>
-      </a>
-    {% endif %}
-  {% endfor %}
+ {% for block in section.blocks %}
+   {% if block.settings.collection %}
+     {% assign selected_collection = collections[block.settings.collection] %}
+     <a href="{{ selected_collection.url }}" class="collection-item">
+       <div class="collection-image-wrapper">
+         <img class="collection-image" src="{{ selected_collection.image.src | img_url: 'master' }}" alt="{{ selected_collection.title }}">
+         <span class="collection-title align-{{ section.settings['title-alignment'] }}">{{ selected_collection.title }}</span>       </div>
+     </a>
+   {% endif %}
+ {% endfor %}
 </div>
 
 
 {% schema %}
 {
-  "name": "Collection List",
-  "settings": [],
-  "blocks": [
+ "name": "Collection List",
+ "settings": [
+  {
+      "type": "header",
+      "content": "Padding Settings"
+    },
     {
-      "type": "collection",
-      "name": "Collection",
-      "settings": [
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Select collection"
-        }
-      ]
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Padding Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Padding Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },   {
+      "type": "header",
+      "content": "collection image height"
+    },
+    {
+  "type": "range",
+  "id": "image_height",
+  "label": "Image Height",
+  "min": 0,
+  "max": 500,
+  "step": 10,
+  "default": 50,
+  "unit": "px"
+},   {
+      "type": "header",
+      "content": "collection title font size"
+    },
+{
+  "type": "range",
+  "id": "title-fontsize",
+  "label": "collection title size",
+  "min": 0,
+  "max": 100,
+  "step": 1,
+  "unit": "px",
+  "default":12 
+},
+{
+  "type": "select",
+  "id": "title-alignment",
+  "label": "Collection Title Alignment",
+  "options": [
+    {
+      "label": "Top",
+      "value": "top"
+    },
+    {
+      "label": "Middle",
+      "value": "middle"
+    },
+    {
+      "label": "Bottom",
+      "value": "bottom"
     }
   ],
-  "presets": [
-    {
-      "name": "Collection List",
-      "category": "Custom"
-    }
-  ]
+  "default": "middle"
+}
+ ],
+ "blocks": [
+   {
+     "type": "collection",
+     "name": "Collection",
+     "settings": [
+       {
+         "type": "collection",
+         "id": "collection",
+         "label": "Select collection"
+       }
+    
+     ]
+   }
+ ],
+ "presets": [
+   {
+     "name": "Collection List",
+     "category": "Custom"
+   }
+ ]
 }
 {% endschema %}
-

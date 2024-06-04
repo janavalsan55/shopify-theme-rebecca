@@ -61,6 +61,12 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 }
+.head{
+  margin-top: 0;
+}
+.menu_item ul{
+  margin-top: 0;
+}
 @media only screen and (max-width: 1024px) {
   .footer_company_information{
     margin-bottom: 60px;

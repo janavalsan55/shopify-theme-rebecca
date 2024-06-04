@@ -1,5 +1,14 @@
+{{ 'product-page.css' |  asset_url | stylesheet_tag }}
+
+{%section 'announcementbar' %}
+{% section 'header' %}
+{% section 'collection-list' %}
+
 {% paginate collection.products by 2 %}
+  <div class="collection-description">
   <h1>{{ collection.title }}</h1>
+  <p>{{ collection.description }}</p>
+  </div>
   {% for product in collection.products %}
     <div>
       <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
@@ -16,3 +25,5 @@
     {{ paginate | default_pagination }}
   {% endif %}
 {% endpaginate %}
+
+{% section 'footer' %}

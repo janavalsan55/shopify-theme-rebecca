@@ -1,0 +1,13 @@
+{
+    "sections": {
+      "template-collection": {
+        "name": " header",
+        "type": "template-index",
+        "settings": {
+        }
+      }
+    },
+    "order": [
+      "template-collection"
+    ]
+  }

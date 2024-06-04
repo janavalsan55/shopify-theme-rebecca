@@ -1,0 +1,46 @@
+.secnav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 100%;
+    z-index: 1000;
+    background-color: white;
+  }
+  
+  #filterbtn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: none;
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 100px;
+    height: 40px;
+    align-items: center;
+  }
+  
+  .filter {
+    width: 130px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  #sortbtn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: none;
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 100px;
+    height: 40px;
+    align-items: center;
+  }
+  
+  .sortby {
+    width: 130px;
+    display: flex;
+    justify-content: center;
+  }
