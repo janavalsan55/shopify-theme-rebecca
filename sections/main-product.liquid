@@ -4,13 +4,6 @@
 
 <div class="main_product">
   <div class="product-images">
-    <div class="slider-for">
-      {% for image in product.images %}
-        <div class="mainimage">
-          <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
-        </div>
-      {% endfor %} 
-    </div>
     <div class="slider-nav">
       {% for image in product.images %}
         <div class="thumbnail" >
@@ -18,28 +11,17 @@
         </div>
       {% endfor %}
     </div>
-  </div>
-</div>
-
-
-
-{% comment %} 
-{% for image in product.images %}
-<div class="swiper mySwiper2">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="{{ image.src | img_url: 'large' }}" alt="{{ image.alt | escape }}">
+    <div class="slider-for">
+      {% for image in product.images %}
+        <div class="mainimage">
+          <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+        </div>
+      {% endfor %} 
     </div>
   </div>
 </div>
-  <div thumbsSlider="" class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-      </div>
-    </div>
-  </div>
-{% endfor %} {% endcomment %}
+
+
 
 
  {% comment %} {% section 'template-index' %}

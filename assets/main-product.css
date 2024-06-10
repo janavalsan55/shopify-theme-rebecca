@@ -7,11 +7,13 @@
     display: flex;
     flex-direction: row;
     width: 50%;
-    
+    gap: 50px;    
+    justify-content: flex-end;
+    padding-right: 10px;
 }
 .slider-for{
     width: 430px;
-    height: 600px;
+    height: 60it0px;
 }
 .mainimage img {
     max-width: 430px;
@@ -31,6 +33,10 @@
     width: 60px;
     height: 600px;
 }
+.thumbnail{
+    width: 60px;
+    height: 80px;
+}
 .thumbnail img{
     width: 60px;
     height: 80px;
@@ -39,7 +45,23 @@
 .slider-nav .slick-track {
     display: flex;
     flex-direction: column;
-  }
- 
+    transform: none !important;
+   
+  } 
+.slider-nav .slick-slide {
+    transition: filter 0.3s, border 0.3s;
+}
+
+.slider-nav .slick-current {
+    border: 1px solid black; 
+}
+
+.slider-nav .slick-slide:not(.slick-current) {
+    filter: blur(1px); 
+}
+.slick-for .slick-list{
+    width: 430px;
+    height: 600px;
+ }
 /* .thumbnail { */
 /* } */ 
