@@ -1,67 +1,66 @@
-{{"product-grid.css" |  asset_url |  stylesheet_tag}}
+{{ "product-grid.css" | asset_url | stylesheet_tag }}
+{{ "product-slider.js" | asset_url | script_tag }}
 
-{%- paginate collection.products by section.settings.products_per_page -%}
-<div class="product-grid">
-        {% for product in collection.products %}
-           
-                <div class="productcard">
-                    <div class="img">
-                        <img src="{{ product.featured_image | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-                    </div>
-                    <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
-                    <button class="addtofav">
-                        <span class="material-symbols-outlined">
-                            favorite
-                        </span>
-                    </button>
-                    <button class="addtocart">QUICK ADD</button>
-                    <div class="product-info">
-                        <span>
-                            <a class="info" href="{{ product.url | within: collection }}">{{ product.title }}</a>
-                        </span>
-                        <span class="price">{{ product.price | money }}</span>
-                    </div>
-                </div>
-          
-        {% else %}
-            <p>no matches</p>
-        {% endfor %}
-        {% if paginate.pages > 1 %}
-            {{ paginate | default_pagination }}
-        {% endif %}
+<div class="product-grid" style="margin-bottom: 80px;">
+  {% for product in collection.products %}
+    <div class="productcard">
+   
+        <div class="img">
+          {% for image in product.images %}
+            <a href="{{ product.url | within: collection }}">
+            <div>
+              <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+            </div>
+            </a>
+          {% endfor %}
+        </div>
+    
+      <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
+      <button class="addtofav">
+        <span class="material-symbols-outlined">favorite</span>
+      </button>
+      <form action="/cart/add" method="post" class="add-to-cart-form">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+      <button class="addtocart">QUICK ADD</button>
+      </form>
+      <div class="product-info">
+        <span>
+          <a class="info" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+        </span>
+        <span class="price">{{ product.price | money }}</span>
+      </div>
+    </div>
+  {% else %}
+    <p>No matches</p>
+  {% endfor %}
 </div>
-{%- endpaginate -%}
 
 {% schema %}
+{
+  "name": "Product Grid",
+  "settings": [
     {
-        "name": "product grid",
-        "settings": [
-            {
-      "type": "number",
-      "id": "products_per_page",
-      "label": "products per page"
-      
-    }, {
       "type": "header",
-      "content": "collection image height"
+      "content": "Collection Image Height"
     },
     {
-  "type": "range",
-  "id": "image_height",
-  "label": "Image Height",
-  "min": 0,
-  "max": 500,
-  "step": 10,
-  "default": 50,
-  "unit": "px"
-}
-            ],
-            "presets": [
-          {
-            "name": "Product Grid",
-            "category": "Custom"
-          }
-        ]
+      "type": "range",
+      "id": "image_height",
+      "label": "Image Height",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 50,
+      "unit": "px"
     }
-    
-    {% endschema %} 
+  ],
+  "presets": [
+    {
+      "name": "Product Grid",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+

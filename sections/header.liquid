@@ -13,7 +13,7 @@
 <nav>
   <div class="navbar">
       <button class="menu-button"><span class="material-symbols-outlined">menu</span></button>
-      <a href="" class="logo-content"><img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo"></a>
+      <a href="{{ section.settings.logo_link }}" class="logo-content"><img src="{{ section.settings.logo | img_url: 'medium' }}" class="logo" alt="Your Logo"></a>
       <div class="menu-item-div">
           <ul class="menu-list">
               {% for link in linklists.main-menu.links %}
@@ -96,7 +96,13 @@
       "step": 1,
       "default": 14,
       "unit": "px"
-    },
+    },{
+    "type":"header",
+    "content":"logo link"
+  },{  "type":"url",
+  "id":"logo_link",
+  "label":"Logo Link"
+  },
     {
       "type": "header",
       "content": "Mega Menu Settings"

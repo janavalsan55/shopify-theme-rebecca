@@ -8,20 +8,30 @@
 .productcard {
     width: calc(25%);
     position: relative;
-    height: 450px;
+    height: 470px;
 
 }
 .addtofav,
-.addtocart {
+.addtocart,
+.slick-prev, 
+.slick-next 
+ {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
 }
 
 .productcard:hover .addtofav,
-.productcard:hover .addtocart {
+.productcard:hover .addtocart,
+.productcard:hover .slick-prev ,
+.productcard:hover .slick-next {
     opacity: 1;
     visibility: visible;
+}
+.productcard:hover .product-highlight{
+    opacity: 0;
+    visibility: hidden;              
+    transition: opacity 0.3s, visibility 0.3s;
 }
 .img img {
     width: 100%;
@@ -81,6 +91,7 @@
     border: none;
     outline: none;
     background: transparent;
+    cursor: pointer;
 }
 .material-symbols-outlined{
     font-size: 1.2rem;
@@ -96,4 +107,42 @@
     font-size: .6rem;
     font-weight: bold;
     background-color: gainsboro;
+    cursor: pointer;
+}
+.slick-prev, .slick-next {
+    position: absolute;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: black;
+    border: none;
+    outline: none;
+    background: transparent;
+    z-index: 1000;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'FontAwesome';
+    font-weight: 100 ; /* Light weight */
+    font-size: 25px;
+    line-height: 1;
+    opacity: 0.75;
+    color: black;
+}
+
+.slick-prev {
+    left: 10px;
+}
+
+.slick-prev:before {
+    content: '\f053'; 
+}
+
+.slick-next {
+    right: 10px;
+}
+
+.slick-next:before {
+    content: '\f054';
 }
