@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var sliderFor = $('.slider-for').slick({
+        var sliderFor = $('.slider-for').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
@@ -24,7 +24,7 @@ $(document).ready(function(){
         nextArrow: '.slick-next',
         infinite: false 
     });
-  
+    $('.slick-nav, .slick-current').css('width', "60px");
     function handleScroll(slider, e) {
         e.preventDefault();
         var currentSlide = slider.slick('slickCurrentSlide');
@@ -46,4 +46,11 @@ $(document).ready(function(){
     sliderFor.on('wheel', function(e) {
         handleScroll(sliderFor, e);
     });
+
+
+    $('.zoomimage').click(function() {
+        $(this).toggleClass('zoomed');
+    });
+
+    
 });

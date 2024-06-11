@@ -7,15 +7,15 @@
     <div class="slider-nav">
       {% for image in product.images %}
         <div class="thumbnail" >
-          <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+          <img  src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
         </div>
       {% endfor %}
     </div>
     <div class="slider-for">
       {% for image in product.images %}
         <div class="mainimage">
-          <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
-        </div>
+          <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+          </div>
       {% endfor %} 
     </div>
   </div>
