@@ -1,16 +1,31 @@
 
 /*  */
 
-/* .main_product {
-/* } */
+.main_product{
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+}
+.product-details-section{
+    width: 50%;
+    margin-inline-end: 5%;
+    margin-inline-start: 5%;
+    margin-block-start: 80px;
+}
 .product-images {
     display: flex;
     flex-direction: row;
     width: 50%;
     gap: 50px;    
     justify-content: flex-end;
-    padding-right: 10px;
+    /* padding-right: 10px; */
+    padding-left: 30px;
 }
+.slick-slide {
+    margin: 0;
+    padding: 0;
+}
+
 .slider-for{
     width: 430px;
     height: 600px;
@@ -26,7 +41,6 @@
     max-width: 430px;
     max-height: 600px;
     object-fit: cover;
-    display: inline-block;
     overflow: hidden;
     position: relative;
   }
@@ -35,6 +49,7 @@
 .slider-nav {
     width: 60px;
     height: 600px;
+    margin-top: 80px;
 }
 .thumbnail{
     width: 60px;
@@ -49,18 +64,16 @@
     display: flex;
     flex-direction: column;
     transform: none !important;
-   
   } 
 .slider-nav .slick-slide {
     transition: filter 0.3s, border 0.3s;
 }
 
-.slider-nav .slick-current{
-    outline: 1px solid black; 
+.slider-nav .slick-slide.slick-current{
+    border: 1px solid black;
+    width: 60px; 
 }
-.slider-nav.slick-current{
-    width: auto;
-}
+
 
 .slider-nav .slick-slide:not(.slick-current) {
     filter: blur(1px); 
@@ -73,4 +86,129 @@
     transform: scale(1.5);
     transition: transform 0.2s ease-in-out;
 }
- 
+
+  
+  .breadcrumb {
+    margin-bottom: 20px; /* add some space between breadcrumb and product details */
+  }
+  
+  .breadcrumb a,.breadcrumb span {
+    font-size: .8rem; /* adjust the font size to your liking */
+    color: #333; /* adjust the text color to your liking */
+    /* font-weight: bold; */
+    text-decoration: none; /* remove underline from links */
+  }
+  
+  .breadcrumb a:hover {
+    color: #666; /* adjust the hover color to your liking */
+  }
+  
+  .product {
+    margin-top: 20px; /* add some space between product title and description */
+  }
+  
+  .product h1 {
+    font-size: 24px; /* adjust the font size to your liking */
+    margin-bottom: 10px; /* add some space between title and description */
+  }
+  
+  .product p {
+    font-size: 18px; /* adjust the font size to your liking */
+    margin-bottom: 20px; /* add some space between paragraphs */
+  }
+  .product-form__swatch{
+    display: flex;
+    gap: 20px;
+  }
+  
+  .product-form__dropdown {
+    position: relative;
+  }
+  
+  .product-form__dropdown select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('arrow-down.svg') no-repeat right center; /* Replace 'arrow-down.svg' with your arrow icon */
+    padding: 5px 25px 5px 5px; /* Adjust padding as needed */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .product-form__dropdown select:hover {
+    border-color: #999;
+  }
+  
+  .product-form__dropdown select:focus {
+    outline: none;
+    border-color: #555;
+  }
+  
+  /* Style for the selected option */
+  .product-form__dropdown select option:checked {
+    font-weight: bold;
+  }
+  
+  /* Style for dropdown options */
+  .product-form__dropdown select option {
+    padding: 10px;
+  }
+  
+  /* Hide the swatch images and names */
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .dropdown-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-menu li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .swatch_img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .swatch-name {
+    font-size: 14px;
+    color: #333;
+  }
+  

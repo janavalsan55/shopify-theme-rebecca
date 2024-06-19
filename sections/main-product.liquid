@@ -1,5 +1,5 @@
 {{ "main-product.css" |  asset_url |  stylesheet_tag }}
-{{ "main-product-slider.js" |  asset_url |  script_tag }}
+{{ "main-product.js" |  asset_url |  script_tag }}
 
 
 <div class="main_product">
@@ -18,6 +18,36 @@
           </div>
       {% endfor %} 
     </div>
+  </div>
+  <div class="product-details-section">
+    <nav class="breadcrumb">
+      <a href="{{ shop.url }}">Home</a> /
+      {% if collection %}
+        <a href="{{ collection.url }}">{{ collection.title }}</a> /
+      {% endif %}
+      <span>{{ product.title }}</span>
+    </nav>
+   <div class="wishlist">
+    <button><span class="material-symbols-outlined">
+      favorite
+      </span></button>
+   </div>
+    <div class="product">
+      <h1 class="ptitle">{{ product.title }}</h1>
+    </div>
+    <div class="custom-dropdown">
+  <button class="dropdown-button">Select a variant</button>
+  <ul class="dropdown-menu">
+    {% for variant in product.variants %}
+      <li data-variant-id="{{ variant.id }}">
+        {% assign swatch_image = variant.featured_image | img_url: 'small' %}
+        <img class="swatch_img" src="{{ swatch_image }}" alt="{{ variant.title }}">
+        <span class="swatch-name">{{ variant.title }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
   </div>
 </div>
 

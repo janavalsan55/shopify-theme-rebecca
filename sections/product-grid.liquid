@@ -1,39 +1,54 @@
 {{ "product-grid.css" | asset_url | stylesheet_tag }}
 {{ "product-slider.js" | asset_url | script_tag }}
 
+
+
 <div class="product-grid" style="margin-bottom: 80px;">
   {% for product in collection.products %}
     <div class="productcard">
-   
-        <div class="img">
-          {% for image in product.images %}
-            <a href="{{ product.url | within: collection }}">
+      <div class="img">
+        {% if product.images.size > 0 %}
+          <a href="{{ product.url | within: collection }}">
             <div>
-              <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+              <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}">
             </div>
-            </a>
-          {% endfor %}
-        </div>
-    
+          </a>
+        {% endif %}
+      </div>
+      
       <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
       <button class="addtofav">
         <span class="material-symbols-outlined">favorite</span>
       </button>
+      
       <form action="/cart/add" method="post" class="add-to-cart-form">
-              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-      <button class="addtocart">QUICK ADD</button>
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <button class="addtocart">QUICK ADD</button>
       </form>
+      
       <div class="product-info">
         <span>
           <a class="info" href="{{ product.url | within: collection }}">{{ product.title }}</a>
         </span>
         <span class="price">{{ product.price | money }}</span>
       </div>
+      
+      {% for variant in product.variants %}
+        <div class="swatch">
+          <a href="#" data-variant-id="{{ variant.id }}">
+            {% assign swatch_image = variant.featured_image | img_url: 'small' %}
+            <img src="{{ swatch_image }}" alt="{{ variant.title }}">
+            <span class="swatch-name">{{ variant.title }}</span>
+          </a>
+        </div>
+      {% endfor %}
+      
     </div>
   {% else %}
     <p>No matches</p>
   {% endfor %}
 </div>
+
 
 {% schema %}
 {
