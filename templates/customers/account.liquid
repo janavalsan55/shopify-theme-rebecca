@@ -1,26 +1,81 @@
-<!-- /templates/customers/account.liquid -->
-
+{{ "account-page.css" |  asset_url | stylesheet_tag}}
 {% if customer.default_address %}
-  <h2>Address</h2>
-  <p>{{ customer.default_address.address1 }}</p>
-  {% if customer.default_address.address2 != "" %}
-    <p>{{ customer.default_address.address2 }}</p>
+
+  <div class="accountpage">
+    {% comment %} nav {% endcomment %}
+    <div class="account-nav">
+      <a href="/account">INFO</a>
+      <a href="/account/orders">ORDERS</a>
+      <a href="/account/addresses">ADDRESSES</a>
+      <a href="">REWARDS</a>
+      <a href="">WISHLIST</a>
+    </div>
+    {% comment %} header {% endcomment %}
+    <div class="accountpage-header">
+      <div class="greeting">
+        <span>Hi&nbsp;{{ customer.default_address.first_name }}</span>
+      </div>
+      <a href="/account/logout">Logout</a>
+    </div>
+  
+   <div class="content">
+      {% comment %} info {% endcomment %}
+     <div class="Info" >
+      <div class="sec1">
+        <div class="info-title">
+          <span>Account Info</span>
+        </div>
+        <div class="name-email">
+          <span>Name: {{ customer.name }}</span>
+          <span>Email: <span style="text-decoration: underline;">{{ customer.email }}</span></span>
+        </div>
+      </div>
+      <div class="sec2">
+        <div class="info-title">
+          <span>change password</span>
+        </div>
+        <div style="margin-top: 10px; font-size:.9rem">We will send you an email to reset your password. </div>
+        <div class="reset-password">
+          {% form 'recover_customer_password' %}
+            {{ form.errors | default_errors }}
+            <div class="form">
+              <input id="inp" type="email" name="email" value="{{ customer.email }}" placeholder="Email Address">
+            <button id="btn"><span class="material-symbols-outlined">arrow_forward_ios</span></button>
+            </div>
+        {% endform %}
+        
+        </div>
+        </div>
+     </div>
+    </div>
+</div>
   {% endif %}
-  <p>{{ customer.default_address.city}}, {% if address.province_code %}{{ customer.default_address.province_code }}, {% endif %}{{ customer.default_address.country }}</p>
-  <p>{{ customer.default_address.zip }}</p>
-  <p>{{ customer.default_address.phone }}</p>
+
+  
+   <!-- /templates/customers/account.liquid -->
+
+{% comment %} {% if customer.default_address %}
+<h2>Address</h2>
+<p>{{ customer.default_address.address1 }}</p>
+{% if customer.default_address.address2 != "" %}
+<p>{{ customer.default_address.address2 }}</p>
+{% endif %}
+<p>{{ customer.default_address.city}}, {% if address.province_code %}{{ customer.default_address.province_code }}, {%
+  endif %}{{ customer.default_address.country }}</p>
+<p>{{ customer.default_address.zip }}</p>
+<p>{{ customer.default_address.phone }}</p>
 {% endif %}
 
 <div id="customer_orders">
   <h2>Orders</h2>
   {% paginate customer.orders by 10 %}
   {% if customer.orders.size != 0 %}
-    {% for order in customer.orders %}
-      <!-- order details here -->
-    {% endfor %}
+  {% for order in customer.orders %}
+  <!-- order details here -->
+  {% endfor %}
   {% else %}
-    <p>You haven't placed any orders yet.</p>
+  <p>You haven't placed any orders yet.</p>
   {% endif %}
   {{ paginate | default_pagination }}
   {% endpaginate %}
-</div>
+</div> {% endcomment %}

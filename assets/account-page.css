@@ -1,0 +1,94 @@
+.accountpage{
+background-color: #f0f0f0;
+  min-height: 60vh;
+  padding: 60px 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.account-nav{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 15px;
+    width: 600px;
+    height: auto;
+    text-align: left;
+    font-size: .8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.account-nav li{
+  cursor: pointer;
+}
+.accountpage-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    padding: 24px 36px 12px;
+    background-color:white;
+    width: 600px;
+    height: 30px;
+  }
+  .greeting span{
+    font-size: 1.4rem;
+  }
+  .accountpage-header a{
+    color: #000;
+  }
+  .content{
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    padding: 0 36px 60px;
+    width: 600px;
+  }
+.info-title{
+  font-size: .8rem;
+  line-height: 18px;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+.name-email{
+  font-size: .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sec1{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.form{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  max-width: 300px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+#inp {
+  background: none;
+  border: none;
+  outline: none;
+  color: #252525;
+  font-size: .7rem;
+}
+#btn{
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+.material-symbols-outlined{
+  font-size: .9rem;
+}
+.reset-password{
+  margin-top: 20px;
+}

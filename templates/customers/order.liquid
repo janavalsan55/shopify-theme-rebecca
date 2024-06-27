@@ -1,6 +1,6 @@
 <!-- /templates/customers/order.liquid -->
 
-<h2>Billing Address</h2>
+{% comment %} <h2>Billing Address</h2>
 <p><span>Payment Status:</span> <span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></p>
 <p>{{ order.billing_address.name }}</p>
 <p>{{ order.billing_address.company }}</p>
@@ -29,4 +29,29 @@
     <td>{{ line_item.line_price | money }}</td>
   </tr>
   {% endfor %}
-</table>
+</table> {% endcomment %}
+{{ "account-page.css" |  asset_url | stylesheet_tag}}
+{% if customer.default_address %}
+  <div class="accountpage">
+    {% comment %} nav {% endcomment %}
+    <div class="account-nav">
+      <a href="/account">INFO</a>
+      <a href="/account/orders">ORDERS</a>
+      <a href="/account/addresses">ADDRESSES</a>
+      <a href="">REWARDS</a>
+      <a href="">WISHLIST</a>
+    </div>
+    {% comment %} header {% endcomment %}
+    <div class="accountpage-header">
+      <div class="greeting">
+        <span>Hi&nbsp;{{ customer.default_address.first_name }}</span>
+      </div>
+      <a href="/account/logout">Logout</a>
+    </div>
+  
+   <div class="content">
+      {% comment %} info {% endcomment %}
+    </div>
+</div>
+  {% endif %}
+   

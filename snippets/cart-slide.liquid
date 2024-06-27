@@ -1,0 +1,196 @@
+{{ 'cart-slide.css'|asset_url|stylesheet_tag }}
+
+
+    <div class="cart-slide">
+    <div class="cartmini-headpart">
+        {% if cart.item_count > 0 %}
+            <div class="not-empty carth">Nice Taste!</div>
+        {% else %}
+            <div class="empty carth">Your Bag is Empty</div>
+        {% endif %}
+        <div class="cartdis">Free ground shipping on all domestic orders of $150+</div>
+        <button class="close-btn cart">
+            <span class="material-symbols-outlined" style="font-size: 1.8rem; font-weight: lighter;">close</span>
+        </button>
+    </div>
+    <div class="mini-cart-body">
+        {% for item in cart.items %}
+            <div class="cart-product-details" id="cart-product-{{ item.key }}">
+                <div class="cart-pimage">
+                    <a href="{{ item.url | within: collections.all }}">
+                        <img src="{{ item.image | img_url: 'master' }}" alt="{{ item.title | escape }}">
+                    </a>
+                </div>
+                <div class="cart-productinfo">
+                    <div class="product-info">
+                        <a href="{{ item.url }}" class="product-title">{{ item.title | escape }}</a>
+                        <button class="delete">
+                            <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
+                                <span class="material-symbols-outlined">delete</span>
+                            </a>
+                        </button>
+                    </div>
+                    <div class="price-qty">
+                        <div class="quantity-content">
+                            <button type="button" class="quantity-btn decrease" data-key="{{ item.key }}">-</button>
+                            <span id="Quantity_{{ item.key }}" data-value="{{ item.quantity }}">{{ item.quantity }}</span>
+                            <button type="button" class="quantity-btn increase" data-key="{{ item.key }}">+</button>
+                            <input type="hidden" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}">
+                        </div>
+                        <div>
+                            <span class="product-price">{{ item.price | money }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mini-cardfooter">
+        <div class="total">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+        </div>
+        <form action="/checkout">
+        <button class="checkout-btn" type="submit" name="checkout">Checkout</button>
+        </form>
+        <span class="cartdis">Shipping & taxes calculated at checkout. </span>
+    </div>
+</div>
+
+
+{% comment %} <div class="cart-slide">
+{% if cart.item_count > 0 %}
+    <h1>cart</h1>
+    <form action="/cart" method="post" novalidate>
+      <table>
+        <thead>
+          <th colspan="2">Prod</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>total</th>
+        </thead>
+        <tbody>
+          {% for item in cart.items %}
+            <tr>
+              <td>
+                <a href="{{ item.url | within: collections.all }}">
+                  <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+                </a>
+              </td>
+              <td>
+                <a href="{{ item.url }}">{{ item.product.title }}</a>
+                {{ item.variant.title }}
+                <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">remove</a>
+              </td>
+              <td>{{ item.price | money }}</td>
+              <td>
+                <input type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0">
+              </td>
+              <td>
+                {% if item.original_line_price != item.line_price %}{{ item.original_line_price | money }}{% endif %}
+                {{ item.line_price | money }}
+                {% for discount in item.discounts %}{{ discount.title }}{% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div>
+        <p>sub total : {{ cart.total_price | money }}</p>
+        <button type="submit" name="update">Update</button>
+        <button type="submit" name="checkout">Checkout</button>
+      </div>
+    </form>
+  {% else %}
+    <h2>cart</h2>
+    Cart is empty
+  {% endif %}
+  </div> {% endcomment %}
+
+
+  <script>
+    $(document).ready(function() {
+      function toggleCartSlide() {
+        var div = $('.cart-slide');
+        div.animate({
+          right: div.css('right') === '0px' ? '-450px' : '0px'
+        });
+      }
+
+      // Bind the click event for users who are not logged in
+      $('.cart').click(toggleCartSlide);
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const decreaseButtons = document.querySelectorAll('.quantity-btn.decrease');
+    const increaseButtons = document.querySelectorAll('.quantity-btn.increase');
+    
+    decreaseButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const key = this.getAttribute('data-key');
+        const quantitySpan = document.getElementById(`Quantity_${key}`);
+        let quantity = parseInt(quantitySpan.getAttribute('data-value'), 10);
+        if (quantity > 1) {
+          quantity--;
+          quantitySpan.setAttribute('data-value', quantity);
+          quantitySpan.textContent = quantity;
+          document.getElementById(`updates_${key}`).value = quantity;
+        }
+      });
+    });
+
+    increaseButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const key = this.getAttribute('data-key');
+        const quantitySpan = document.getElementById(`Quantity_${key}`);
+        let quantity = parseInt(quantitySpan.getAttribute('data-value'), 10);
+        quantity++;
+        quantitySpan.setAttribute('data-value', quantity);
+        quantitySpan.textContent = quantity;
+        document.getElementById(`updates_${key}`).value = quantity;
+      });
+    });
+});
+
+
+$(document).ready(function() {
+    function updateCartTotal() {
+        var total = 0;
+        $('.cart-product-details').each(function() {
+            var quantity = parseInt($(this).find('.quantity-content span').text());
+            var price = parseFloat($(this).find('.product-price').text().replace('$', ''));
+            total += quantity * price;
+        });
+        $('#cart-total').text('$' + total.toFixed(2));
+    }
+
+    $('.quantity-btn').on('click', function() {
+        var $button = $(this);
+        var oldValue = parseInt($button.siblings('span').text());
+        var key = $button.data('key');
+        var newValue = oldValue;
+
+        if ($button.hasClass('decrease')) {
+            newValue = oldValue > 1 ? oldValue - 1 : 1;
+        } else if ($button.hasClass('increase')) {
+            newValue = oldValue + 1;
+        }
+
+        $button.siblings('span').text(newValue);
+        $button.siblings('input[name="updates[]"]').val(newValue);
+
+        // Update product price if needed (assuming price might change with quantity, otherwise remove this part)
+        var pricePerItem = parseFloat($('#product-price-' + key).text().replace('$', ''));
+        var newPrice = pricePerItem * newValue;
+        $('#product-price-' + key).text('$' + newPrice.toFixed(2));
+
+        updateCartTotal();
+
+        // Optionally, send an AJAX request to update the cart in the backend
+        // $.post('/cart/update', { updates: { key: newValue } });
+    });
+});
+
+  </script>

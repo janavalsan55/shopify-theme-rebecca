@@ -1,0 +1,54 @@
+{{ 'login-slide.css'|asset_url|stylesheet_tag }}
+{{ 'login-slide.js'| asset_url| script_tag }}
+
+
+<div class="dropdownuser">
+    <div class="form_heading">My Account</div>
+    <div class="btns">
+      <button type="button" class="loginbt" onclick="toggleForms('login')">LOGIN</button>
+      <button type="button" class="create" onclick="toggleForms('signup')">CREATE ACCOUNT</button>
+    </div>
+  
+      {% form 'customer_login' %}
+      <div class="userformlogin userform">
+        {{ form.errors | default_errors }}
+        <input type="text" name="customer[email]" autocomplete="email" placeholder="Email address" style="margin-bottom: 30px;">
+        <input type="password" name="customer[password]" autocomplete="current-password" placeholder="Password" style="margin-bottom: 30px;">
+        <button type="submit" class="useraction">LOGIN</button>
+      </div>
+      {% endform %}
+  
+      {% form 'create_customer' %}
+      <div class="userformsignup userform">
+        {{ form.errors | default_errors }}
+        <input type="text" name="customer[first_name]" autocomplete="given-name" placeholder="First Name">
+        <input type="text" name="customer[last_name]" autocomplete="family-name" placeholder="Last Name">
+        <input type="email" name="customer[email]" autocomplete="email" placeholder="Email address">
+        <input type="password" name="customer[password]" autocomplete="new-password" placeholder="Password">
+        <button type="submit" class="useraction">CREATE ACCOUNT</button>
+      </div>
+      {% endform %}
+  </div>
+</nav>
+
+{% if customer %}
+  <script>
+    $(document).ready(function() {
+      // Customer is logged in, so we don't bind the click event
+    });
+  </script>
+{% else %}
+  <script>
+    $(document).ready(function() {
+      function toggleDropdownUser() {
+        var div = $('.dropdownuser');
+        div.animate({
+          right: div.css('right') === '0px' ? '-450px' : '0px'
+        });
+      }
+
+      // Bind the click event for users who are not logged in
+      $('.user').click(toggleDropdownUser);
+    });
+  </script>
+{% endif %}

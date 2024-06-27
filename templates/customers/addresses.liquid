@@ -1,4 +1,4 @@
-<!-- /templates/customers/addresses.liquid -->
+ {% comment %} <!-- /templates/customers/addresses.liquid -->
 
 <h2>New Address</h2>
 {% form 'customer_address', customer.new_address %}
@@ -36,4 +36,59 @@
 <label for="phone">Phone Number</label>
 <input type="tel" value="" name="address[phone]" />
 
-{% endform %}
+{% endform %}  {% endcomment %}
+
+
+
+{{ "account-page.css" |  asset_url | stylesheet_tag}}
+{{ "address-page.css" |  asset_url | stylesheet_tag}}
+
+
+
+{% if customer.default_address %}
+  <div class="accountpage">
+    {% comment %} nav {% endcomment %}
+    <div class="account-nav">
+      <a href="/account">INFO</a>
+      <a href="/account/orders">ORDERS</a>
+      <a href="/account/addresses">ADDRESSES</a>
+      <a href="">REWARDS</a>
+      <a href="">WISHLIST</a>
+    </div>
+    {% comment %} header {% endcomment %}
+    <div class="accountpage-header">
+      <div class="greeting">
+        <span>Hi&nbsp;{{ customer.default_address.first_name }}</span>
+      </div>
+      <a href="/account/logout">Logout</a>
+    </div>
+    {% comment %} content {% endcomment %}
+    <div class="content">
+      <div class="address-content">
+        <div class="address">
+          {% if customer.default_address %}
+              <p class="name">{{ customer.default_address.name }}</p>
+              <p>{{ customer.default_address.address1 }}</p>
+              {% if customer.default_address.address2 != "" %}
+                  <p>{{ customer.default_address.address2 }}</p>
+              {% endif %}
+              <p>{{ customer.default_address.city }}, {% if customer.default_address.province_code %}{{ customer.default_address.province_code }} {% endif %}{{ customer.default_address.zip }}</p>
+          {% endif %}
+        </div>      
+        <div class="adress-controls">
+          <label class="default-address rmp">
+            <input type="checkbox">
+            <span class="custom-checkbox"></span>
+            Default Address
+        </label>        
+          <div class="actions">
+            <a href="#" class="edit rmp">Edit</a>
+            <a href="#" class="delete rmp">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+   

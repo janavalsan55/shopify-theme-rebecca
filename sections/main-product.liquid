@@ -1,24 +1,32 @@
 {{ "main-product.css" |  asset_url |  stylesheet_tag }}
 {{ "main-product.js" |  asset_url |  script_tag }}
-
-
-<div class="main_product">
+{% comment %} <div class="main_product">
   <div class="product-images">
     <div class="slider-nav">
       {% for image in product.images %}
-        <div class="thumbnail" >
-          <img  src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+        <div class="thumbnail" 
+             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
+               style="display: none;"
+             {% endif %}
+             thumbnail-alt="{{ image.alt }}">
+          <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
         </div>
       {% endfor %}
     </div>
+
     <div class="slider-for">
       {% for image in product.images %}
-        <div class="mainimage">
+        <div class="mainimage" 
+             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
+               style="display: none;"
+             {% endif %}
+             mainimage-alt="{{ image.alt }}">
           <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
-          </div>
-      {% endfor %} 
+        </div>
+      {% endfor %}
     </div>
   </div>
+  
   <div class="product-details-section">
     <nav class="breadcrumb">
       <a href="{{ shop.url }}">Home</a> /
@@ -27,30 +35,92 @@
       {% endif %}
       <span>{{ product.title }}</span>
     </nav>
-   <div class="wishlist">
-    <button><span class="material-symbols-outlined">
-      favorite
-      </span></button>
-   </div>
+    
+    <div class="wishlist">
+      <button><span class="material-symbols-outlined">favorite</span></button>
+    </div>
+    
     <div class="product">
       <h1 class="ptitle">{{ product.title }}</h1>
     </div>
+    
     <div class="custom-dropdown">
-  <button class="dropdown-button">Select a variant</button>
-  <ul class="dropdown-menu">
-    {% for variant in product.variants %}
-      <li data-variant-id="{{ variant.id }}">
-        {% assign swatch_image = variant.featured_image | img_url: 'small' %}
-        <img class="swatch_img" src="{{ swatch_image }}" alt="{{ variant.title }}">
-        <span class="swatch-name">{{ variant.title }}</span>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+      <button class="dropdown-button">{{ product.selected_or_first_available_variant.title }}</button>
+      <div class="dropdown-menu">
+        {% for variant in product.variants %}
+          <div class="dropdown-item" data-variant-id="{{ variant.id }}">
+            {% if variant.featured_image %}
+              {% assign swatch_image = variant.featured_image | img_url: 'small' %}
+              <img class="swatch_img" src="{{ swatch_image }}" alt="{{ variant.title }}">
+            {% endif %}
+            <span class="swatch-name">{{ variant.title }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
 
+<div class="main_product">
+  <div class="product-images">
+    <div class="slider-nav">
+      {% for image in product.images %}
+        <div class="thumbnail" 
+             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
+               style="display: none;"
+             {% endif %}
+             thumbnail-alt="{{ image.alt }}">
+          <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="slider-for">
+      {% for image in product.images %}
+        <div class="mainimage" 
+             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
+               style="display: none;"
+             {% endif %}
+             mainimage-alt="{{ image.alt }}">
+          <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="product-details-section">
+    <nav class="breadcrumb">
+      <a href="{{ shop.url }}">Home</a> /
+      {% if collection %}
+        <a href="{{ collection.url }}">{{ collection.title }}</a> /
+      {% endif %}
+      <span>{{ product.title }}</span>
+    </nav>
+    
+    <div class="wishlist">
+      <button><span class="material-symbols-outlined">favorite</span></button>
+    </div>
+    
+    <div class="product">
+      <h1 class="ptitle">{{ product.title }}</h1>
+    </div>
+    
+    <div class="custom-dropdown">
+      <button class="dropdown-button">{{ product.selected_or_first_available_variant.title }}</button>
+      <div class="dropdown-menu">
+        {% for variant in product.variants %}
+          <div class="dropdown-item" data-variant-id="{{ variant.id }}">
+            {% if variant.featured_image %}
+              {% assign swatch_image = variant.featured_image | img_url: 'small' %}
+              <img class="swatch_img" src="{{ swatch_image }}" alt="{{ variant.title }}">
+            {% endif %}
+            <span class="swatch-name">{{ variant.title }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </div>
-
 
 
 

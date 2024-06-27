@@ -1,19 +1,19 @@
 {{ "product-grid.css" | asset_url | stylesheet_tag }}
-{{ "product-slider.js" | asset_url | script_tag }}
-
+{{ "product-grid.js" | asset_url | script_tag }}
+{{ "drawer.js" | asset_url | script_tag }}
 
 
 <div class="product-grid" style="margin-bottom: 80px;">
   {% for product in collection.products %}
     <div class="productcard">
       <div class="img">
-        {% if product.images.size > 0 %}
+        {% comment %} {% if product.images.size > 0 %} {% endcomment %}
           <a href="{{ product.url | within: collection }}">
             <div>
-              <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}">
+              <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
             </div>
           </a>
-        {% endif %}
+        {% comment %} {% endif %} {% endcomment %}
       </div>
       
       <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
@@ -32,17 +32,6 @@
         </span>
         <span class="price">{{ product.price | money }}</span>
       </div>
-      
-      {% for variant in product.variants %}
-        <div class="swatch">
-          <a href="#" data-variant-id="{{ variant.id }}">
-            {% assign swatch_image = variant.featured_image | img_url: 'small' %}
-            <img src="{{ swatch_image }}" alt="{{ variant.title }}">
-            <span class="swatch-name">{{ variant.title }}</span>
-          </a>
-        </div>
-      {% endfor %}
-      
     </div>
   {% else %}
     <p>No matches</p>

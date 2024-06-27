@@ -7,9 +7,11 @@
     align-items: center;
     padding-left: 20px;
     padding-right: 20px;
+}
+.sticky-header{
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 9;
 }
 .menu-button {
     display: none;

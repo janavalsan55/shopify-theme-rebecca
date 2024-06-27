@@ -1,0 +1,84 @@
+.address-content{
+    padding: 30px 0 ;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+.address .name {
+    margin-bottom: 10px;
+    font-size: .8rem;
+    line-height: 18px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    padding: 0;
+}
+
+.default-address {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.default-address input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions a {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+}
+
+.actions a:hover {
+    text-decoration: none;
+}
+p{
+    margin: 0;
+}
+.rmp{
+    font-size: .8rem;
+}
+.default-address input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.custom-checkbox {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border: 2px solid black;
+    margin-right: 10px;
+    position: relative;
+}
+
+.default-address input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: rgb(255, 255, 255);
+}
+
+.default-address input[type="checkbox"]:checked + .custom-checkbox::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2px;
+    height: 6px;
+    border: solid rgb(0, 0, 0);
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.adress-controls{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

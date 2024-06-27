@@ -1,0 +1,69 @@
+{{ 'cart-main.css'|asset_url|stylesheet_tag }}
+
+
+    <div class="cart-slide">
+    <div class="cartmini-headpart">
+        {% if cart.item_count > 0 %}
+            <div class="not-empty carth">Nice Taste!</div>
+        {% else %}
+            <div class="empty carth">Your Bag is Empty</div>
+        {% endif %}
+        <div class="cartdis">Free ground shipping on all domestic orders of $150+</div>
+        <button class="close-btn cart">
+            <span class="material-symbols-outlined" style="font-size: 1.8rem; font-weight: lighter;">close</span>
+        </button>
+    </div>
+    <div class="mini-cart-body">
+        {% for item in cart.items %}
+            <div class="cart-product-details" id="cart-product-{{ item.key }}">
+                <div class="cart-pimage">
+                    <a href="{{ item.url | within: collections.all }}">
+                        <img src="{{ item.image | img_url: 'master' }}" alt="{{ item.title | escape }}">
+                    </a>
+                </div>
+                <div class="cart-productinfo">
+                    <div class="product-info">
+                        <a href="{{ item.url }}" class="product-title">{{ item.title | escape }}</a>
+                        <button class="delete">
+                            <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
+                                <span class="material-symbols-outlined">delete</span>
+                            </a>
+                        </button>
+                    </div>
+                    <div class="price-qty">
+                        <div class="quantity-content">
+                            <button type="button" class="quantity-btn decrease" data-key="{{ item.key }}">-</button>
+                            <span id="Quantity_{{ item.key }}" data-value="{{ item.quantity }}">{{ item.quantity }}</span>
+                            <button type="button" class="quantity-btn increase" data-key="{{ item.key }}">+</button>
+                            <input type="hidden" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}">
+                        </div>
+                        <div>
+                            <span class="product-price">{{ item.price | money }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mini-cardfooter">
+        <div class="total">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+        </div>
+        <form action="/checkout">
+        <button class="checkout-btn" type="submit" name="checkout">Checkout</button>
+        </form>
+        <span class="cartdis">Shipping & taxes calculated at checkout. </span>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "presets": [
+    {
+      "name": "cart",
+      "category": "Custom"
+    }
+  ]
+    }
+{% endschema %}
