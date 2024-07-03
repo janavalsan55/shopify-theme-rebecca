@@ -32,21 +32,36 @@
     transform: translate(-50%, -50%);
   }
 {% endstyle %}
+{% comment %} {% if collection.handle == 'handbags'%} {% endcomment %}
+  <div class="collection-list">
+    {% for block in section.blocks %}
+      {% if block.settings.collection %}
+        {% assign selected_collection = collections[block.settings.collection] %}
+        <a href="{{ selected_collection.url }}" class="collection-item">
+          <div class="collection-image-wrapper">
+            <img class="collection-image" src="{{ selected_collection.image.src | img_url: 'master' }}" alt="{{ selected_collection.title }}">
+            <span class="collection-title align-{{ section.settings['title-alignment'] }}">{{ selected_collection.title }}</span>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% comment %} {% else %} {% endcomment %}
+{% comment %} {% endif %} {% endcomment %}
 
-<div class="collection-list">
- {% for block in section.blocks %}
-   {% if block.settings.collection %}
-     {% assign selected_collection = collections[block.settings.collection] %}
-     <a href="{{ selected_collection.url }}" class="collection-item">
-       <div class="collection-image-wrapper">
-         <img class="collection-image" src="{{ selected_collection.image.src | img_url: 'master' }}" alt="{{ selected_collection.title }}">
-         <span class="collection-title align-{{ section.settings['title-alignment'] }}">{{ selected_collection.title }}</span>       </div>
-     </a>
-   {% endif %}
- {% endfor %}
+<div class="collection-list-slider slider ">
+  {% for block in section.blocks %}
+    {% if block.settings.collection %}
+      {% assign selected_collection = collections[block.settings.collection] %}
+      <a href="{{ selected_collection.url }}" class="collection-item-slider">
+        <div class="collection-image-wrapper-slider  ">
+          <img class="collection-image-slider" src="{{ selected_collection.image.src | img_url: 'master' }}" alt="{{ selected_collection.title }}">
+          <span class="collection-title align-{{ section.settings['title-alignment'] }}">{{ selected_collection.title }}</span>
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
 </div>
-
-
 {% schema %}
 {
  "name": "Collection List",

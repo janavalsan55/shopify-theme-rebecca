@@ -4,39 +4,51 @@
 
 
 <div class="product-grid" style="margin-bottom: 80px;">
+  {% assign product_found = false %}
   {% for product in collection.products %}
-    <div class="productcard">
-      <div class="img">
-        {% comment %} {% if product.images.size > 0 %} {% endcomment %}
-          <a href="{{ product.url | within: collection }}">
-            <div>
-              <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+    {% for variant in product.variants %}
+      {% assign variant_image = variant.featured_image | default: product.images.first %}
+      {% if variant_image %}
+        {% if variant_image.alt %}
+          <div class="productcard">
+            <div class="img">
+              <a href="{{ variant.url }}">
+                <div>
+                  <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
+                </div>
+              </a>
             </div>
-          </a>
-        {% comment %} {% endif %} {% endcomment %}
-      </div>
-      
-      <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
-      <button class="addtofav">
-        <span class="material-symbols-outlined">favorite</span>
-      </button>
-      
-      <form action="/cart/add" method="post" class="add-to-cart-form">
-        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-        <button class="addtocart">QUICK ADD</button>
-      </form>
-      
-      <div class="product-info">
-        <span>
-          <a class="info" href="{{ product.url | within: collection }}">{{ product.title }}</a>
-        </span>
-        <span class="price">{{ product.price | money }}</span>
-      </div>
-    </div>
-  {% else %}
-    <p>No matches</p>
+            
+            <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
+            <button class="addtofav">
+              <span class="material-symbols-outlined">favorite</span>
+            </button>
+            
+            <form action="/cart/add" method="post" class="add-to-cart-form">
+              <input type="hidden" name="id" value="{{ variant.id }}">
+              <button class="addtocart">QUICK ADD</button>
+            </form>
+            
+            <div class="product-info">
+              <span>
+                <a class="info" href="{{ product.url | within: collection }}">{{ product.title }} - {{ variant.title }}</a>
+              </span>
+              <span class="price">{{ variant.price | money }}</span>
+            </div>
+          </div>
+          
+          {% assign product_found = true %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
   {% endfor %}
+  
+  {% unless product_found %}
+    <p>No matches</p>
+  {% endunless %}
 </div>
+
+
 
 
 {% schema %}

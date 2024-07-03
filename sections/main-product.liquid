@@ -1,163 +1,379 @@
 {{ "main-product.css" |  asset_url |  stylesheet_tag }}
-{{ "main-product.js" |  asset_url |  script_tag }}
-{% comment %} <div class="main_product">
+{{ "product-grid-productpage.css" |  asset_url |  stylesheet_tag }}
+{{"product-page.js" |  asset_url |  script_tag}}
+
+
+<div class="container">
+  <div class="main_product">
   <div class="product-images">
     <div class="slider-nav">
       {% for image in product.images %}
-        <div class="thumbnail" 
-             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
-               style="display: none;"
-             {% endif %}
-             thumbnail-alt="{{ image.alt }}">
-          <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-        </div>
+      <div class="thumbnail" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} thumbnail-alt="{{ image.alt }}">
+        <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+      </div> 
       {% endfor %}
     </div>
 
     <div class="slider-for">
       {% for image in product.images %}
-        <div class="mainimage" 
-             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
-               style="display: none;"
-             {% endif %}
-             mainimage-alt="{{ image.alt }}">
-          <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
-        </div>
+      <div class="mainimage" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} mainimage-alt="{{ image.alt }}">
+        <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+      </div>
       {% endfor %}
     </div>
   </div>
-  
   <div class="product-details-section">
     <nav class="breadcrumb">
       <a href="{{ shop.url }}">Home</a> /
       {% if collection %}
-        <a href="{{ collection.url }}">{{ collection.title }}</a> /
+      <a href="{{ collection.url }}">{{ collection.title }}</a> /
       {% endif %}
       <span>{{ product.title }}</span>
     </nav>
-    
     <div class="wishlist">
-      <button><span class="material-symbols-outlined">favorite</span></button>
+      <button>
+        <span class="material-symbols-outlined">favorite</span>
+        </button>
     </div>
-    
     <div class="product">
-      <h1 class="ptitle">{{ product.title }}</h1>
+      <span class="ptitle">{{ product.title }}</span>
     </div>
-    
-    <div class="custom-dropdown">
-      <button class="dropdown-button">{{ product.selected_or_first_available_variant.title }}</button>
-      <div class="dropdown-menu">
-        {% for variant in product.variants %}
-          <div class="dropdown-item" data-variant-id="{{ variant.id }}">
-            {% if variant.featured_image %}
-              {% assign swatch_image = variant.featured_image | img_url: 'small' %}
-              <img class="swatch_img" src="{{ swatch_image }}" alt="{{ variant.title }}">
-            {% endif %}
-            <span class="swatch-name">{{ variant.title }}</span>
+    {% form 'product', product %}
+    <input id="product_id" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {% if product.variants.size > 1 %}
+      <div class="product-option">
+        <div class="variant-images">
+          {% for variant in product.variants %}
+          <div class="variant-image" data-variant-id="{{ variant.id }}" style="cursor: pointer;">
+            <img src="{{ variant.featured_media | img_url: '200x200' }}" alt="{{ variant.title }}" />
+            <p>{{ variant.title }}</p>
           </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
+        <select id="product-variant-select" style="display:none;">
+          {% for variant in product.variants %}
+          <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
+            {{ variant.title }}
+          </option>
+          {% endfor %}
+        </select>
       </div>
-    </div>
+    {% endif %}    
+    <button type="submit" class="add-to-cart-button">
+      <span>ADD TO BAG</span>
+      <span class="product-prie">{{ product.selected_or_first_available_variant.price | money }}</span>
+    </button>
+    {% endform %}
   </div>
-</div> {% endcomment %}
+</div>
 
-<div class="main_product">
-  <div class="product-images">
-    <div class="slider-nav">
-      {% for image in product.images %}
-        <div class="thumbnail" 
-             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
-               style="display: none;"
-             {% endif %}
-             thumbnail-alt="{{ image.alt }}">
-          <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-        </div>
-      {% endfor %}
-    </div>
-
-    <div class="slider-for">
-      {% for image in product.images %}
-        <div class="mainimage" 
-             {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %}
-               style="display: none;"
-             {% endif %}
-             mainimage-alt="{{ image.alt }}">
-          <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
-        </div>
-      {% endfor %}
-    </div>
+<div class="slider-container">
+  <div class="slider-action">
+    <span class="slider-head">You May Also Like</span>
+  <div class="slider-btns">
+    <button type="button" class="pslick-prev"></button>
+    <button type="button" class="pslick-next"></button>
   </div>
-  
-  <div class="product-details-section">
-    <nav class="breadcrumb">
-      <a href="{{ shop.url }}">Home</a> /
-      {% if collection %}
-        <a href="{{ collection.url }}">{{ collection.title }}</a> /
+  </div>
+  <div class="product-grid-new product-pg-slider" style="margin-bottom: 80px;">
+    {% assign product_found = false %}
+    {% for variant in product.variants %}
+      {% assign variant_image = variant.featured_image | default: product.images.first %}
+      {% if variant_image %}
+        {% if variant_image.alt %}
+          <div class="product-card-new">
+            <div class="img-new">
+              <a href="{{ variant.url }}">
+                <div>
+                  <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
+                </div>
+              </a>
+            </div>
+            <span class="product-highlight-new{% unless product.tags == blank %} has-tags-new{% endunless %}">{{ product.tags }}</span>
+            <button class="add-to-fav-new">
+              <span class="material-symbols-outlined">favorite</span>
+            </button>
+            <form action="/cart/add" method="post" class="add-to-cart-form-new">
+              <input type="hidden" name="id" value="{{ variant.id }}">
+              <button class="add-to-cart-new">QUICK ADD</button>
+            </form>
+            <div class="product-info-new">
+              <span>
+                <a class="info-new" href="{{ product.url | within: collection }}">{{ product.title }} - {{ variant.title }}</a>
+              </span>
+              <span class="price-new">{{ variant.price | money }}</span>
+            </div>
+          </div>
+          {% assign product_found = true %}
+        {% endif %}
       {% endif %}
-      <span>{{ product.title }}</span>
-    </nav>
-    
-    <div class="wishlist">
-      <button><span class="material-symbols-outlined">favorite</span></button>
-    </div>
-    
-    <div class="product">
-      <h1 class="ptitle">{{ product.title }}</h1>
-    </div>
-    
-    <div class="custom-dropdown">
-      <button class="dropdown-button">{{ product.selected_or_first_available_variant.title }}</button>
-      <div class="dropdown-menu">
-        {% for variant in product.variants %}
-          <div class="dropdown-item" data-variant-id="{{ variant.id }}">
-            {% if variant.featured_image %}
-              {% assign swatch_image = variant.featured_image | img_url: 'small' %}
-              <img class="swatch_img" src="{{ swatch_image }}" alt="{{ variant.title }}">
-            {% endif %}
-            <span class="swatch-name">{{ variant.title }}</span>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
+    {% endfor %}
+    {% unless product_found %}
+      <p>No related variants found</p>
+    {% endunless %}
   </div>
+</div>
 </div>
 
 
 
- {% comment %} {% section 'template-index' %}
-{% assign current_variant = product.selected_or_first_available_variant %}
-{% assign featured_image = current_variant.featured_image | default: product.featured_image %}
-<img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
-{% for image in product.images %}
-  <div thumbsSlider="" class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-      </div>
-    </div>
-  </div>
-{% endfor %}
-<h1>{{ product.title }}</h1>
-<form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
-  <select name="id" id="productSelect">
-    {% for variant in product.variants %}
-      {% if variant.available %}
-        <option value="{{ variant.id }}">
-          {{ variant.title }} - {{ variant.price | money_with_currency }}
-        </option>
-      {% else %}
-        <option disabled="disabled">
-          {{ variant.title }} - sold out
-        </option>
+{% comment %} 
+<div class="product-option">
+        <select id="product-variant-select">
+          {% for variant in product.variants %}
+          <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
+            {{ variant.title }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>  
+        document.querySelector('#product-variant-select').addEventListener('change', (event) => {
+  const selectedVariantId = event.target.value;
+  const selectedOption = event.target.options[event.target.selectedIndex];
+  const selectedOptions = selectedOption.getAttribute('data-options').split(',');
+  const selectedPrice = selectedOption.getAttribute('data-price');
+  const selectedAlt = selectedOption.getAttribute('data-alt');
+
+  // Update the product form id
+  document.querySelector('#product_id').value = selectedVariantId;
+
+  // Update the URL
+  const url = new URL(window.location.href);
+  url.searchParams.set('variant', selectedVariantId);
+  window.history.replaceState(null, null, url.toString());
+
+  // Update the prices
+  document.querySelector('.product-price').textContent = formatMoney(selectedPrice, "{{ shop.money_format }}");
+
+  // Update the image
+  document.querySelectorAll('.thumbnail, .mainimage').forEach(element => {
+    if (element.getAttribute('thumbnail-alt') === selectedAlt || element.getAttribute('mainimage-alt') === selectedAlt) {
+      element.style.display = '';
+    } else {
+      element.style.display = 'none';
+    }
+  });
+});
+
+
+
+
+<div class="product-grid-new product-pg-slider" style="margin-bottom: 80px;">
+  {% assign displayed_variants = 0 %}
+  {% assign product_found = false %}
+  {% for variant in product.variants %}
+    {% assign variant_image = variant.featured_image | default: product.images.first %}
+    {% if variant_image %}
+      {% if variant_image.alt %}
+        <div class="product-card-new">
+          <div class="img-new">
+            <a href="{{ variant.url }}">
+              <div>
+                <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
+              </div>
+            </a>
+          </div>
+          <span class="product-highlight-new{% unless product.tags == blank %} has-tags-new{% endunless %}">{{ product.tags }}</span>
+          <button class="add-to-fav-new">
+            <span class="material-symbols-outlined">favorite</span>
+          </button>
+          <form action="/cart/add" method="post" class="add-to-cart-form-new">
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <button class="add-to-cart-new">QUICK ADD</button>
+          </form>
+          <div class="product-info-new">
+            <span>
+              <a class="info-new" href="{{ product.url | within: collection }}">{{ product.title }} - {{ variant.title }}</a>
+            </span>
+            <span class="price-new">{{ variant.price | money }}</span>
+          </div>
+        </div>
+        {% assign product_found = true %}
+        {% assign displayed_variants = displayed_variants | plus: 1 %}
       {% endif %}
+    {% endif %}
+    
+
+    {% if displayed_variants >= 4 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+
+  {% if displayed_variants < 4 %}
+    {% assign needed_variants = 4 | minus: displayed_variants %}
+    {% assign additional_products = collections['your-collection-handle'].products | limit: needed_variants %}
+    
+    {% for additional_product in additional_products %}
+      {% for variant in additional_product.variants %}
+        {% assign variant_image = variant.featured_image | default: additional_product.images.first %}
+        {% if variant_image %}
+          {% if variant_image.alt %}
+            <div class="product-card-new">
+              <div class="img-new">
+                <a href="{{ variant.url }}">
+                  <div>
+                    <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
+                  </div>
+                </a>
+              </div>
+              <span class="product-highlight-new{% unless additional_product.tags == blank %} has-tags-new{% endunless %}">{{ additional_product.tags }}</span>
+              <button class="add-to-fav-new">
+                <span class="material-symbols-outlined">favorite</span>
+              </button>
+              <form action="/cart/add" method="post" class="add-to-cart-form-new">
+                <input type="hidden" name="id" value="{{ variant.id }}">
+                <button class="add-to-cart-new">QUICK ADD</button>
+              </form>
+              <div class="product-info-new">
+                <span>
+                  <a class="info-new" href="{{ additional_product.url | within: collection }}">{{ additional_product.title }} - {{ variant.title }}</a>
+                </span>
+                <span class="price-new">{{ variant.price | money }}</span>
+              </div>
+            </div>
+            {% assign displayed_variants = displayed_variants | plus: 1 %}
+          {% endif %}
+        {% endif %}
+        
+   
+        {% if displayed_variants >= 4 %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
     {% endfor %}
-  </select>
-  {{ current_variant.price | money }}
-  <label for="Quantity">quantity</label>
-  <input type="number" id="Quantity" name="quantity" value="1" min="1">
-  <button type="submit" name="add" id="AddToCart">Add to cart</button>
-</form>
-<div>{{ product.description }}</div> {% endcomment %}
+  {% endif %}
+  
+
+  {% unless product_found %}
+    <p>No related variants found</p>
+  {% endunless %}
+</div>
+
+{% endcomment %}
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const variantImages = document.querySelectorAll('.variant-image');
+  const variantSelect = document.getElementById('product-variant-select');
+
+  variantImages.forEach(image => {
+    image.addEventListener('click', function() {
+      const variantId = image.getAttribute('data-variant-id');
+      
+      // Set the select box to the corresponding variant
+      variantSelect.value = variantId;
+      
+      // Trigger change event if needed
+      variantSelect.dispatchEvent(new Event('change'));
+      
+      // Optional: Highlight the selected image (add/remove a class)
+      variantImages.forEach(img => img.classList.remove('selected'));
+      image.classList.add('selected');
+    });
+  });
+});
+
+  // 
+    var product = {{ product | json }};
+    
+    document.querySelector('#product-variant-select').addEventListener('change', (event) => {
+  const selectedVariantId = event.target.value;
+  const selectedOption = event.target.options[event.target.selectedIndex];
+  const selectedOptions = selectedOption.getAttribute('data-options').split(',');
+  const selectedPrice = selectedOption.getAttribute('data-price');
+  const selectedAlt = selectedOption.getAttribute('data-alt');
+
+  // Update the product form id
+  document.querySelector('#product_id').value = selectedVariantId;
+
+  // Update the URL
+  const url = new URL(window.location.href);
+  url.searchParams.set('variant', selectedVariantId);
+  window.history.replaceState(null, null, url.toString());
+
+  // Update the prices
+  document.querySelector('.product-price').textContent = formatMoney(selectedPrice, "{{ shop.money_format }}");
+
+  // Update the image
+  document.querySelectorAll('.thumbnail, .mainimage').forEach(element => {
+    if (element.getAttribute('thumbnail-alt') === selectedAlt || element.getAttribute('mainimage-alt') === selectedAlt) {
+      element.style.display = '';
+    } else {
+      element.style.display = 'none';
+    }
+  });
+});
+
+    // slider
+    
+    $(document).ready(function() {
+    // Initialize the slick sliders
+    var sliderFor = $('.slider-for').slick({
+        slidesToShow: 1,
+        slidesToScroll: 5,
+        arrows: false,
+        fade: false,
+        asNavFor: '.slider-nav',
+        infinite: false,
+        centerMode: true,
+        centerPadding: '0',
+        vertical: true,
+        verticalSwiping: true,
+        swipeToSlide: true,
+        focusOnSelect: true
+    });
+
+    var sliderNav = $('.slider-nav').slick({
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        asNavFor: '.slider-for',
+        focusOnSelect: true,
+        arrows: true,
+        prevArrow: '.slick-prev',
+        nextArrow: '.slick-next',
+        infinite: false
+    });
+
+    // Handle zoom effect on images
+    $('.zoomimage').css('transform', 'scale(1)');
+
+    sliderFor.on('wheel', function(e) {
+        handleScroll(sliderFor, e);
+        $('.zoomimage.zoomed').removeClass('zoomed');
+    });
+
+    $('.zoomimage').click(function() {
+        $(this).toggleClass('zoomed');
+    });
+
+    // Function to handle scroll events on the slider
+    function handleScroll(slider, e) {
+        e.preventDefault();
+        var currentSlide = slider.slick('slickCurrentSlide');
+        var slideCount = slider.slick('getSlick').slideCount;
+
+        if (e.originalEvent.deltaY < 0) {
+            // Scroll up
+            if (currentSlide > 0) {
+                slider.slick('slickPrev');
+            }
+        } else {
+            // Scroll down
+            if (currentSlide < slideCount - 1) {
+                slider.slick('slickNext');
+            }
+        }
+    }
+
+});
+</script>
+
+  
+
 
 
 {% schema %}
@@ -174,5 +390,3 @@
 
 }
 {% endschema %}
-
-

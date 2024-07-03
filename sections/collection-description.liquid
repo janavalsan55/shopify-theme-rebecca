@@ -1,0 +1,49 @@
+
+{% style %}
+     .breadcrumb {
+            margin: 20px;
+            font-size: .8rem;
+        }
+        .breadcrumb a{
+           text-decoration: none;
+           color: black;2
+        }
+        .container {
+            text-align: center;
+            margin: 100px 20px;
+        }
+        .title {
+            font-size: 1.rem;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: .9rem;
+            max-width: 430px;
+            margin: 0 auto;
+        }
+{% endstyle %}
+
+<div class="breadcrumb">
+        <a href="{{ shop.url }}">Home</a> / <a href="{{ collection.url }}">{{ collection.title }}</a>
+    </div>
+    <div class="container">
+        <div class="title">{{ collection.title }}</div>
+        <div class="description">
+            {{ collection.description }}
+        </div>
+    </div>
+
+{% schema %}
+    {
+      "name": "Collection Description",
+      "settings": [
+        
+        ],
+        "presets": [
+          {
+            "name": "Collection Description"
+            }
+            ]
+    
+    }
+    {% endschema %}

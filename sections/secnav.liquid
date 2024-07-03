@@ -1,4 +1,5 @@
 {{ "secnav.css" | asset_url |  stylesheet_tag }}
+{{ "sortby.css" | asset_url |  stylesheet_tag }}
 
 {% style %}
     .secnav{
@@ -13,20 +14,35 @@
       <button id="filterbtn"><span class="material-symbols-outlined">
         tune
         </span>  <span style="font-size: 14px;">Filter</span></button>
-    </div>
-    <div class="sortby">
+         </div>
+    <div class="sortby" id="sortby">
       <button id="sortbtn">
-        <span>Sort by</span>
-        <span class="material-symbols-outlined">
-          expand_more
-          </span></button>
+          <span>Sort by</span>
+          <span class="material-symbols-outlined">expand_more</span>
+      </button>
+      <div class="sortby-content">
+        <a href="#" data-sort="featured">Featured</a>
+        <a href="#" data-sort="price_low_high">Price: Low - High</a>
+        <a href="#" data-sort="price_high_low">Price: High - Low</a>
+        <a href="#" data-sort="oldest_newest">Oldest - Newest</a>
+        <a href="#" data-sort="newest_oldest">Newest - Oldest</a>
+        <a href="#" data-sort="bestselling">Bestselling</a>
     </div>
   </div>
+  </div>
 
-
+  <script>
+    document.getElementById("sortbtn").onclick = function() {
+        var sortby = document.getElementById("sortby");
+        sortby.classList.toggle("show");
+        this.classList.toggle("active");
+    };
+     
+</script>
   {% schema %}
     {
         "name": "filter bar",
+        "class": "sticky-secnav",
         "settings": [
             {
       "type": "header",

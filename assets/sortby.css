@@ -1,0 +1,49 @@
+.sortby {
+    position: relative;
+    display: inline-block;
+}
+.sortby button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: none;
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 100px;
+    height: 40px;
+    align-items: center;
+}
+/* .sortby button span {
+    margin-right: 5px;
+} */
+.sortby button .material-symbols-outlined {
+    transition: transform 0.3s ease;
+}
+.sortby button.active .material-symbols-outlined {
+    transform: rotate(180deg);
+}
+.sortby-content {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 10px 0;
+    z-index: 1;
+    width: 200px;
+    right: 0;
+}
+.sortby-content a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: .8rem;
+}
+.sortby-content a:hover {
+    background-color: #f1f1f1;
+}
+.sortby.show .sortby-content {
+    display: block;
+}
