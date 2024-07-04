@@ -4,6 +4,7 @@
     flex-direction: row;
     justify-content: space-between;
     border-bottom: 1px solid black;
+    
 }
 .address .name {
     margin-bottom: 10px;

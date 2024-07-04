@@ -5,83 +5,96 @@
 
 <div class="container">
   <div class="main_product">
-  <div class="product-images">
-    <div class="slider-nav">
-      {% for image in product.images %}
-      <div class="thumbnail" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} thumbnail-alt="{{ image.alt }}">
-        <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-      </div> 
-      {% endfor %}
-    </div>
-
-    <div class="slider-for">
-      {% for image in product.images %}
-      <div class="mainimage" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} mainimage-alt="{{ image.alt }}">
-        <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+    <div class="product-images">
+      <div class="slider-nav">
+        {% for image in product.images %}
+        <div class="thumbnail" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} thumbnail-alt="{{ image.alt }}">
+          <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+        </div> 
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="product-details-section">
-    <nav class="breadcrumb">
-      <a href="{{ shop.url }}">Home</a> /
-      {% if collection %}
-      <a href="{{ collection.url }}">{{ collection.title }}</a> /
-      {% endif %}
-      <span>{{ product.title }}</span>
-    </nav>
-    <div class="wishlist">
-      <button>
-        <span class="material-symbols-outlined">favorite</span>
-        </button>
-    </div>
-    <div class="product">
-      <span class="ptitle">{{ product.title }}</span>
-    </div>
-    {% form 'product', product %}
-    <input id="product_id" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-    {% if product.variants.size > 1 %}
-      <div class="product-option">
-        <div class="variant-images">
-          {% for variant in product.variants %}
-          <div class="variant-image" data-variant-id="{{ variant.id }}" style="cursor: pointer;">
-            <img src="{{ variant.featured_media | img_url: '200x200' }}" alt="{{ variant.title }}" />
-            <p>{{ variant.title }}</p>
-          </div>
-          {% endfor %}
+  
+      <div class="slider-for">
+        {% for image in product.images %}
+        <div class="mainimage" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} mainimage-alt="{{ image.alt }}">
+          <img class="zoomimage" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">
         </div>
-        <select id="product-variant-select" style="display:none;">
-          {% for variant in product.variants %}
-          <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
-            {{ variant.title }}
-          </option>
-          {% endfor %}
-        </select>
+        {% endfor %}
       </div>
-    {% endif %}    
-    <button type="submit" class="add-to-cart-button">
-      <span>ADD TO BAG</span>
-      <span class="product-prie">{{ product.selected_or_first_available_variant.price | money }}</span>
-    </button>
-    {% endform %}
+    </div>
+    <div class="product-details-section">
+      <nav class="breadcrumb">
+        <a href="{{ shop.url }}">Home</a> /
+        {% if collection %}
+        <a href="{{ collection.url }}">{{ collection.title }}</a> /
+        {% endif %}
+        <span>{{ product.title }}</span>
+      </nav>
+      <div class="wishlist">
+        <button>
+          <span class="material-symbols-outlined">favorite</span>
+          </button>
+      </div>
+      <div class="product">
+        <span class="ptitle">{{ product.title }}</span>
+      </div>
+      {% form 'product', product %}
+    <div class="swatcher-container">
+      <div class="selected-swatch">
+        <span class="current-wsatch"></span>
+        <button class="swatcher-expand">
+          <span class="material-symbols-outlined">expand_more</span>
+      </button>
+      </div>
+     <div class="swatcher">
+      <input id="product_id" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      {% if product.variants.size > 1 %}
+        <div class="product-option">
+          <div class="variant-images">
+            {% for variant in product.variants %}
+            <div class="variant-image" data-variant-id="{{ variant.id }}" style="cursor: pointer;">
+              <img src="{{ variant.featured_media | img_url: '200x200' }}" alt="{{ variant.title }}" />
+              <p>{{ variant.title }}</p>
+            </div>
+            {% endfor %}
+          </div>
+          <select id="product-variant-select" style="display:none;">
+            {% for variant in product.variants %}
+            <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
+              {{ variant.title }}
+            </option>
+            {% endfor %}
+          </select>
+     </div>
+    </div>
+        </div>
+      {% endif %}    
+      <div class="btn-addbag">
+        <button type="submit" class="add-to-cart-button">
+          <span>ADD TO BAG</span>
+          <span class="product-prie">{{ product.selected_or_first_available_variant.price | money }}</span>
+        </button>
+        </div>
+      {% endform %}
+    </div>
   </div>
-</div>
+  
 
 <div class="slider-container">
   <div class="slider-action">
     <span class="slider-head">You May Also Like</span>
-  <div class="slider-btns">
+   <div class="slider-btns">
     <button type="button" class="pslick-prev"></button>
     <button type="button" class="pslick-next"></button>
+   </div>
   </div>
-  </div>
-  <div class="product-grid-new product-pg-slider" style="margin-bottom: 80px;">
+  <div class="product-grid-new product-pg-slider" style="padding-bottom: 100px;">
     {% assign product_found = false %}
     {% for variant in product.variants %}
       {% assign variant_image = variant.featured_image | default: product.images.first %}
       {% if variant_image %}
         {% if variant_image.alt %}
-          <div class="product-card-new">
+          <div class="product-card-new current-product">
             <div class="img-new">
               <a href="{{ variant.url }}">
                 <div>
@@ -256,6 +269,14 @@
 
 
 <script>
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var currentProduct = document.querySelector('.product-card-new.current-product');
+    //     if (currentProduct) {
+    //         currentProduct.parentNode.removeChild(currentProduct);
+    //     }
+    // });
+//
+
 document.addEventListener("DOMContentLoaded", function() {
   const variantImages = document.querySelectorAll('.variant-image');
   const variantSelect = document.getElementById('product-variant-select');

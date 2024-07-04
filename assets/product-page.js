@@ -4,9 +4,40 @@ $(document).ready(function(){
     variableWidth: true,
     slidesToShow: 4,
     slidesToScroll: 1,
-    loop: false,
     prevArrow: '.pslick-prev',
     nextArrow: '.pslick-next',
+    mobileFirst:true,//add this one
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 5,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToScroll: 1,
+        }
+      }
+    ]
   });
   
+
+  // dropdown slide animation
+  $('.selected-swatch').click(function() {
+    $('.swatcher').slideToggle(300);
+    $(this).addClass("active");
+  });
+
 });
+
+
+
+
