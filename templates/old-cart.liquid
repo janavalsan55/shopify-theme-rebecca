@@ -1,4 +1,4 @@
-{% if cart.item_count > 0 %}
+{% comment %} {% if cart.item_count > 0 %}
   <h1>cart</h1>
   <form action="/cart" method="post" novalidate>
     <table>
@@ -43,4 +43,4 @@
 {% else %}
   <h2>cart</h2>
   Cart is empty
-{% endif %} 
+{% endif %}  {% endcomment %}

@@ -33,11 +33,10 @@ $(document).ready(function(){
   // dropdown slide animation
   $('.selected-swatch').click(function() {
     $('.swatcher').slideToggle(300);
-    $(this).addClass("active");
+    $(this).toggleClass("active");
   });
 
 });
-
 
 
 

@@ -20,13 +20,12 @@
             </div>
             
             <span class="product-highlight{% unless product.tags == blank %} has-tags{% endunless %}">{{ product.tags }}</span>
-            <button class="addtofav">
-              <span class="material-symbols-outlined">favorite</span>
-            </button>
+            <button class="st-wishlist-button addtofav" data-type="details" data-handle="{{product.handle}}">
+    </span></button>
             
             <form action="/cart/add" method="post" class="add-to-cart-form">
               <input type="hidden" name="id" value="{{ variant.id }}">
-              <button class="addtocart">QUICK ADD</button>
+              <button type="submit" class="addtocart">QUICK ADD</button>
             </form>
             
             <div class="product-info">

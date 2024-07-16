@@ -1,4 +1,20 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('form[action="/cart/add"]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+    //  submit form with aJax
+    await fetch("/cart/add", {
+      method: "post",
+      body: new FormData(form),
+    });
+    // open cart
+    document.querySelector(".cart-drawer").classList.add("cart-drawer--active")
+  });
+  });
+});
+
+
 
  var formatMoney = function(cents, format) {
   if (typeof cents == 'string') { cents = cents.replace('.',''); }

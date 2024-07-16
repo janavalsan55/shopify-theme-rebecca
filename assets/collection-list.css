@@ -25,6 +25,9 @@
     display: none;
   
 }
+.slider{
+    width: 100%;
+}
 /* Mobile styles */
 /* Mobile styles */
 @media only screen and (max-width: 576px) {

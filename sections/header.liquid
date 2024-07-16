@@ -63,7 +63,25 @@
           <span style="cursor: pointer;" class="material-symbols-outlined icon-link">person</span>
       {% endif %}
       </li>
-        <li class="nav-btn cart"><span style="cursor: pointer;" class="material-symbols-outlined cart-icon">shopping_cart</span></li>
+      <li class="nav-btn">
+        <a href="#st-wishlist-details-button">
+          <span class="material-symbols-outlined">
+            favorite
+            </span>
+            </a>
+      </li>
+      <li class="nav-btn cart">
+        <div style="cursor: pointer;" class="item-count">
+            <span>
+                {% if cart.item_count > 0 %}
+                    {{ cart.item_count }}
+                {% else %}
+                    0
+                {% endif %}
+            </span>
+        </div>
+    </li>
+    
       </ul>
     </div>
   </div>

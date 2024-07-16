@@ -1,0 +1,123 @@
+{{ "main-cart.css" |  asset_url |  stylesheet_tag }}
+
+<div class="basket-page">
+ <div class="basket-panel">
+    <div class="basket-header">
+        {% if cart.item_count > 0 %}
+            <div class="basket-message">Your Bag</div>
+        {% else %}
+            <div class="basket-empty-message">Your Bag is Empty</div>
+        {% endif %}
+        <div class="basket-count">{{ cart.item_count }} items</div>
+    </div>
+    <div class="basket-body">
+        {% for item in cart.items %}
+            <div class="basket-item" id="basket-item-{{ item.key }}">
+                <div class="basket-item-image">
+                    <a href="{{ item.url | within: collections.all }}">
+                        <img src="{{ item.image | img_url: 'master' }}" alt="{{ item.title | escape }}">
+                    </a>
+                </div>
+                <div class="basket-item-details">
+                    <div class="basket-item-info">
+                        <div class="basket-pname">
+                            <a href="{{ item.url }}" class="basket-item-title">{{ item.title | escape }}</a>
+                        <span class="variant-name">{{ item.variant.title }}</span>
+                        </div>
+                        <button class="basket-item-delete">
+                            <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
+                            <span class="remove">Remove</span>
+                            <span class="material-symbols-outlined">
+                                delete
+                                </span>
+                            </a>
+                        </button>
+                    </div>
+                    <div class="basket-item-quantity-price">
+                        <div class="basket-item-quantity">
+                            <button type="button" class="basket-quantity-decrease qt-btn" data-key="{{ item.key }}">-</button>
+                            <span id="basket-quantity-{{ item.key }}" data-value="{{ item.quantity }}">{{ item.quantity }}</span>
+                            <button type="button" class="basket-quantity-increase qt-btn" data-key="{{ item.key }}">+</button>
+                            <input type="hidden" name="updates[]" id="basket-updates-{{ item.key }}" value="{{ item.quantity }}">
+                        </div>
+                        <div>
+                            <span class="basket-item-price">{{ item.price | money }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="basket-footer">
+        <div class="basket-total">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+        </div>
+        <form action="/checkout" style="width: 100%;">
+            <button class="basket-checkout-button" type="submit" name="checkout">Checkout</button>
+        </form>
+        <span class="basket-shipping-disclaimer">Shipping & taxes calculated at checkout.</span>
+    </div>
+  </div>
+</div>
+
+<select name="country" id="">{{ country_option_tags }}</select>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function updateBasketTotal() {
+        let total = 0;
+        document.querySelectorAll('.basket-item').forEach(function(item) {
+            let quantity = parseInt(item.querySelector('.basket-item-quantity span').textContent);
+            let price = parseFloat(item.querySelector('.basket-item-price').textContent.replace('$', ''));
+            total += quantity * price;
+        });
+        document.querySelector('.basket-total span:last-child').textContent = '$' + total.toFixed(2);
+    }
+
+    document.querySelectorAll('.qt-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            let span = button.parentElement.querySelector('span');
+            let oldValue = parseInt(span.textContent);
+            let key = button.getAttribute('data-key');
+            let newValue = oldValue;
+
+            if (button.classList.contains('basket-quantity-decrease')) {
+                newValue = oldValue > 1 ? oldValue - 1 : 1;
+            } else if (button.classList.contains('basket-quantity-increase')) {
+                newValue = oldValue + 1;
+            }
+
+            span.textContent = newValue;
+            button.parentElement.querySelector('input[name="updates[]"]').value = newValue;
+
+            // Update product price if needed (assuming price might change with quantity, otherwise remove this part)
+            let pricePerItem = parseFloat(document.getElementById('basket-item-price-' + key).textContent.replace('$', ''));
+            let newPrice = pricePerItem * newValue;
+            document.getElementById('basket-item-price-' + key).textContent = '$' + newPrice.toFixed(2);
+
+            updateBasketTotal();
+
+            // Optionally, send an AJAX request to update the basket in the backend
+            fetch('/cart/change.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: key,
+                    quantity: newValue
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateBasketTotal();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+
+    updateBasketTotal(); // Initial total calculation
+});
+
+</script>

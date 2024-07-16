@@ -4,13 +4,13 @@
 
 
 <div class="container">
-  <div class="main_product">
+  <div class="main_product" style="height: 600px;">
     <div class="product-images">
       <div class="slider-nav">
         {% for image in product.images %}
         <div class="thumbnail" {% if product.selected_or_first_available_variant.featured_media.alt != image.alt and product.selected_or_first_available_variant.featured_media.alt != blank %} style="display: none;" {% endif %} thumbnail-alt="{{ image.alt }}">
           <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-        </div> 
+        </div>
         {% endfor %}
       </div>
   
@@ -30,253 +30,163 @@
         {% endif %}
         <span>{{ product.title }}</span>
       </nav>
+      
       <div class="wishlist">
-        <button>
-          <span class="material-symbols-outlined">favorite</span>
-          </button>
-      </div>
+     <div id="seal-star-rating-widget" style="justify-content: flex-start; min-height: 16px; margin-top: 10px; color: rgb(0, 0, 0);" data-star-size="16" data-font-size="14" class="vstar-star"><div class="product-icon-list vstar-star" style="--star-color:#000000;--nostar-color:#E6E6E6;--star-size:16px">
+		 <div class="star-item"><svg class="trustoo-rating-icon" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path d="M10 0L12.8214 6.11672L19.5106 6.90983L14.5651 11.4833L15.8779 18.0902L10 14.8L4.12215 18.0902L5.43493 11.4833L0.489435 6.90983L7.17863 6.11672L10 0Z"></path>
+	</svg>
+	</div><div class="star-item"><svg class="trustoo-rating-icon" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path d="M10 0L12.8214 6.11672L19.5106 6.90983L14.5651 11.4833L15.8779 18.0902L10 14.8L4.12215 18.0902L5.43493 11.4833L0.489435 6.90983L7.17863 6.11672L10 0Z"></path>
+	</svg>
+	</div><div class="star-item"><svg class="trustoo-rating-icon" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path d="M10 0L12.8214 6.11672L19.5106 6.90983L14.5651 11.4833L15.8779 18.0902L10 14.8L4.12215 18.0902L5.43493 11.4833L0.489435 6.90983L7.17863 6.11672L10 0Z"></path>
+	</svg>
+	</div><div class="star-item"><svg class="trustoo-rating-icon" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path d="M10 0L12.8214 6.11672L19.5106 6.90983L14.5651 11.4833L15.8779 18.0902L10 14.8L4.12215 18.0902L5.43493 11.4833L0.489435 6.90983L7.17863 6.11672L10 0Z"></path>
+	</svg>
+	</div><div class="star-item"><svg class="trustoo-rating-icon" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path d="M10 0L12.8214 6.11672L19.5106 6.90983L14.5651 11.4833L15.8779 18.0902L10 14.8L4.12215 18.0902L5.43493 11.4833L0.489435 6.90983L7.17863 6.11672L10 0Z"></path>
+	</svg>
+	</div> <div class="tt-rating-text" style="font-size:14px"></div></div></div>
+  <button class="st-wishlist-button" data-type="details" data-handle="{{product.handle}}"><span class="material-symbols-outlined">
+    favorite
+    </span></button>
+        </div>
+      
       <div class="product">
         <span class="ptitle">{{ product.title }}</span>
       </div>
+      
       {% form 'product', product %}
-    <div class="swatcher-container">
-      <div class="selected-swatch">
-        <span class="current-wsatch"></span>
-        <button class="swatcher-expand">
-          <span class="material-symbols-outlined">expand_more</span>
-      </button>
-      </div>
-     <div class="swatcher">
-      <input id="product_id" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-      {% if product.variants.size > 1 %}
-        <div class="product-option">
-          <div class="variant-images">
-            {% for variant in product.variants %}
-            <div class="variant-image" data-variant-id="{{ variant.id }}" style="cursor: pointer;">
-              <img src="{{ variant.featured_media | img_url: '200x200' }}" alt="{{ variant.title }}" />
-              <p>{{ variant.title }}</p>
-            </div>
-            {% endfor %}
+
+        
+      <div class="swatcher-container">
+        <div class="selected-swatch" style="cursor: pointer;">
+          <span class="current-swatch" style="margin-left: 10px;"></span>
+          <div class="swatcher-expand">
+            <span class="material-symbols-outlined" style="margin-right: 10px;">expand_more</span>
           </div>
-          <select id="product-variant-select" style="display:none;">
-            {% for variant in product.variants %}
-            <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
-              {{ variant.title }}
-            </option>
-            {% endfor %}
-          </select>
-     </div>
-    </div>
         </div>
-      {% endif %}    
+        <div class="swatcher" style="display: none;">
+          <input id="product_id" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {% if product.variants.size > 1 %}
+          <div class="product-option">
+            <div class="variant-images">
+              {% for variant in product.variants %}
+              <div class="variant-image" data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title }}" style="cursor: pointer;">
+                <img src="{{ variant.featured_media | img_url: '200x200' }}" alt="{{ variant.title }}">
+                <p>{{ variant.title }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <select id="product-variant-select" style="display:none;">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
+                {{ variant.title }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      
       <div class="btn-addbag">
         <button type="submit" class="add-to-cart-button">
           <span>ADD TO BAG</span>
           <span class="product-prie">{{ product.selected_or_first_available_variant.price | money }}</span>
         </button>
-        </div>
+      </div>
       {% endform %}
     </div>
-  </div>
   
-
-<div class="slider-container">
-  <div class="slider-action">
-    <span class="slider-head">You May Also Like</span>
-   <div class="slider-btns">
-    <button type="button" class="pslick-prev"></button>
-    <button type="button" class="pslick-next"></button>
-   </div>
   </div>
-  <div class="product-grid-new product-pg-slider" style="padding-bottom: 100px;">
-    {% assign product_found = false %}
-    {% for variant in product.variants %}
+
+ 
+  <div class="slider-container">
+    <div class="slider-action">
+      <span class="slider-head">You May Also Like</span>
+      <div class="slider-btns">
+        <button type="button" class="pslick-prev"></button>
+        <button type="button" class="pslick-next"></button>
+      </div>
+    </div>
+    
+    <div class="product-grid-new product-pg-slider" style="padding-bottom: 100px;">
+      {% assign product_found = false %}
+      {% for variant in product.variants %}
       {% assign variant_image = variant.featured_image | default: product.images.first %}
       {% if variant_image %}
-        {% if variant_image.alt %}
-          <div class="product-card-new current-product">
-            <div class="img-new">
-              <a href="{{ variant.url }}">
-                <div>
-                  <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
-                </div>
-              </a>
+      {% if variant_image.alt %}
+      <div class="product-card-new current-product">
+        <div class="img-new">
+          <a href="{{ variant.url }}">
+            <div>
+              <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
             </div>
-            <span class="product-highlight-new{% unless product.tags == blank %} has-tags-new{% endunless %}">{{ product.tags }}</span>
-            <button class="add-to-fav-new">
-              <span class="material-symbols-outlined">favorite</span>
-            </button>
-            <form action="/cart/add" method="post" class="add-to-cart-form-new">
-              <input type="hidden" name="id" value="{{ variant.id }}">
-              <button class="add-to-cart-new">QUICK ADD</button>
-            </form>
-            <div class="product-info-new">
-              <span>
-                <a class="info-new" href="{{ product.url | within: collection }}">{{ product.title }} - {{ variant.title }}</a>
-              </span>
-              <span class="price-new">{{ variant.price | money }}</span>
-            </div>
-          </div>
-          {% assign product_found = true %}
-        {% endif %}
+          </a>
+        </div>
+        <span class="product-highlight-new{% unless product.tags == blank %} has-tags-new{% endunless %}">{{ product.tags }}</span>
+        <button class="add-to-fav-new">
+          <span class="material-symbols-outlined">favorite</span>
+        </button>
+        <form action="/cart/add" method="post" class="add-to-cart-form-new">
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <button class="add-to-cart-new">QUICK ADD</button>
+        </form>
+        <div class="product-info-new">
+          <span>
+            <a class="info-new" href="{{ product.url | within: collection }}">{{ product.title }} - {{ variant.title }}</a>
+          </span>
+          <span class="price-new">{{ variant.price | money }}</span>
+        </div>
+      </div>
+      {% assign product_found = true %}
       {% endif %}
-    {% endfor %}
-    {% unless product_found %}
+      {% endif %}
+      {% endfor %}
+      {% unless product_found %}
       <p>No related variants found</p>
-    {% endunless %}
+      {% endunless %}
+    </div>
   </div>
 </div>
-</div>
-
-
-
-{% comment %} 
-<div class="product-option">
-        <select id="product-variant-select">
-          {% for variant in product.variants %}
-          <option value="{{ variant.id }}" data-options="{{ variant.options | join: ',' }}" data-price="{{ variant.price }}" data-alt="{{ variant.featured_media.alt }}">
-            {{ variant.title }}
-          </option>
-          {% endfor %}
-        </select>
-      </div>  
-        document.querySelector('#product-variant-select').addEventListener('change', (event) => {
-  const selectedVariantId = event.target.value;
-  const selectedOption = event.target.options[event.target.selectedIndex];
-  const selectedOptions = selectedOption.getAttribute('data-options').split(',');
-  const selectedPrice = selectedOption.getAttribute('data-price');
-  const selectedAlt = selectedOption.getAttribute('data-alt');
-
-  // Update the product form id
-  document.querySelector('#product_id').value = selectedVariantId;
-
-  // Update the URL
-  const url = new URL(window.location.href);
-  url.searchParams.set('variant', selectedVariantId);
-  window.history.replaceState(null, null, url.toString());
-
-  // Update the prices
-  document.querySelector('.product-price').textContent = formatMoney(selectedPrice, "{{ shop.money_format }}");
-
-  // Update the image
-  document.querySelectorAll('.thumbnail, .mainimage').forEach(element => {
-    if (element.getAttribute('thumbnail-alt') === selectedAlt || element.getAttribute('mainimage-alt') === selectedAlt) {
-      element.style.display = '';
-    } else {
-      element.style.display = 'none';
-    }
-  });
-});
-
-
-
-
-<div class="product-grid-new product-pg-slider" style="margin-bottom: 80px;">
-  {% assign displayed_variants = 0 %}
-  {% assign product_found = false %}
-  {% for variant in product.variants %}
-    {% assign variant_image = variant.featured_image | default: product.images.first %}
-    {% if variant_image %}
-      {% if variant_image.alt %}
-        <div class="product-card-new">
-          <div class="img-new">
-            <a href="{{ variant.url }}">
-              <div>
-                <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
-              </div>
-            </a>
-          </div>
-          <span class="product-highlight-new{% unless product.tags == blank %} has-tags-new{% endunless %}">{{ product.tags }}</span>
-          <button class="add-to-fav-new">
-            <span class="material-symbols-outlined">favorite</span>
-          </button>
-          <form action="/cart/add" method="post" class="add-to-cart-form-new">
-            <input type="hidden" name="id" value="{{ variant.id }}">
-            <button class="add-to-cart-new">QUICK ADD</button>
-          </form>
-          <div class="product-info-new">
-            <span>
-              <a class="info-new" href="{{ product.url | within: collection }}">{{ product.title }} - {{ variant.title }}</a>
-            </span>
-            <span class="price-new">{{ variant.price | money }}</span>
-          </div>
-        </div>
-        {% assign product_found = true %}
-        {% assign displayed_variants = displayed_variants | plus: 1 %}
-      {% endif %}
-    {% endif %}
-    
-
-    {% if displayed_variants >= 4 %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-  
-
-  {% if displayed_variants < 4 %}
-    {% assign needed_variants = 4 | minus: displayed_variants %}
-    {% assign additional_products = collections['your-collection-handle'].products | limit: needed_variants %}
-    
-    {% for additional_product in additional_products %}
-      {% for variant in additional_product.variants %}
-        {% assign variant_image = variant.featured_image | default: additional_product.images.first %}
-        {% if variant_image %}
-          {% if variant_image.alt %}
-            <div class="product-card-new">
-              <div class="img-new">
-                <a href="{{ variant.url }}">
-                  <div>
-                    <img src="{{ variant_image.src | img_url: 'master' }}" alt="{{ variant_image.alt }}">
-                  </div>
-                </a>
-              </div>
-              <span class="product-highlight-new{% unless additional_product.tags == blank %} has-tags-new{% endunless %}">{{ additional_product.tags }}</span>
-              <button class="add-to-fav-new">
-                <span class="material-symbols-outlined">favorite</span>
-              </button>
-              <form action="/cart/add" method="post" class="add-to-cart-form-new">
-                <input type="hidden" name="id" value="{{ variant.id }}">
-                <button class="add-to-cart-new">QUICK ADD</button>
-              </form>
-              <div class="product-info-new">
-                <span>
-                  <a class="info-new" href="{{ additional_product.url | within: collection }}">{{ additional_product.title }} - {{ variant.title }}</a>
-                </span>
-                <span class="price-new">{{ variant.price | money }}</span>
-              </div>
-            </div>
-            {% assign displayed_variants = displayed_variants | plus: 1 %}
-          {% endif %}
-        {% endif %}
-        
-   
-        {% if displayed_variants >= 4 %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
-  {% endif %}
-  
-
-  {% unless product_found %}
-    <p>No related variants found</p>
-  {% endunless %}
-</div>
-
-{% endcomment %}
-
-
 
 
 <script>
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     var currentProduct = document.querySelector('.product-card-new.current-product');
-    //     if (currentProduct) {
-    //         currentProduct.parentNode.removeChild(currentProduct);
-    //     }
-    // });
-//
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const variantImages = document.querySelectorAll('.variant-image');
+        const currentSwatch = document.querySelector('.current-swatch');
+
+        console.log("Variant Images:", variantImages);
+        console.log("Current Swatch:", currentSwatch);
+
+        // Initialize current swatch with the first variant's title
+        if (variantImages.length > 0) {
+            const firstVariantTitle = variantImages[0].getAttribute('data-variant-title');
+            if (firstVariantTitle) {
+                currentSwatch.textContent = firstVariantTitle;
+            } else {
+                console.error("First variant title not found");
+            }
+        }
+
+        variantImages.forEach(variantImage => {
+            console.log("Attaching click event to:", variantImage);
+            variantImage.addEventListener('click', function () {
+                const variantTitle = this.getAttribute('data-variant-title');
+                console.log("Selected Variant Title:", variantTitle);
+                if (variantTitle) {
+                    currentSwatch.textContent = variantTitle;
+                } else {
+                    console.error("Variant title not found");
+                }
+            });
+        });
+    });
+ 
 document.addEventListener("DOMContentLoaded", function() {
   const variantImages = document.querySelectorAll('.variant-image');
   const variantSelect = document.getElementById('product-variant-select');
@@ -334,8 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $(document).ready(function() {
     // Initialize the slick sliders
     var sliderFor = $('.slider-for').slick({
-        slidesToShow: 1,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
         arrows: false,
         fade: false,
         asNavFor: '.slider-nav',
@@ -349,8 +258,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     var sliderNav = $('.slider-nav').slick({
-        slidesToShow: 5,
-        slidesToScroll: 1,
+    slidesToScroll: 1,
         asNavFor: '.slider-for',
         focusOnSelect: true,
         arrows: true,

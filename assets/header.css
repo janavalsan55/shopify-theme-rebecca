@@ -125,6 +125,22 @@
 .sub-links li a:hover::after {
     width: 100%; 
 }
+.item-count{
+    align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  background-color: #000;
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  color: white;
+}
+.item-count span{
+    font-size: .8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
 
 @media only screen and (max-width: 1024px) {
     .menu-list{

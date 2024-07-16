@@ -11,9 +11,129 @@
 
 <div class="secnav">
     <div class="filter">
-      <button id="filterbtn"><span class="material-symbols-outlined">
-        tune
-        </span>  <span style="font-size: 14px;">Filter</span></button>
+        <div class="filter">
+        <div class="filter-container" onclick="filterFunction()">
+          <button id="filterbtn"><span class="material-symbols-outlined">
+            tune
+            </span>  <span style="font-size: 14px;">Filter</span></button>
+        </div>
+
+        <div id="filter-dropdown-content" class="filter-dropdown-content">
+          <form class="filter-form" id="filter-form">
+            <input type="hidden" name="q" value="{{ search.terms }}">
+            {% for filter in search.filters %}
+              <div class="filter-dropdown">
+                <div onclick="toggleDropdown('{{ filter.param_name }}Dropdown')" class="filter-title">
+                  {{ filter.label }}
+                  <i class="chevron-icon fa fa-chevron-down"></i>
+                </div>
+                <div id="{{ filter.param_name }}Dropdown" class="filter-options">
+                  {% case filter.type %}
+                    {% when 'boolean' %}
+                      <ul>
+                        <li>
+                          <label for="Filter-{{ filter.param_name }}-{{ filter.true_value.value }}">
+                            <input type="radio" name="{{ filter.param_name }}" value="{{ filter.true_value.value }}" id="Filter-{{ filter.param_name }}" {% if filter.true_value.active %}checked{% endif %} {% if filter.true_value.count == 0 and filter.true_value.active == false %}disabled{% endif %} onchange="this.form.submit()">
+                            {{ filter.true_value.label }}
+                          </label>
+                        </li>
+                        <li>
+                          <label for="Filter-{{ filter.param_name }}-{{ filter.false_value.value }}">
+                            <input type="radio" name="{{ filter.param_name }}" value="{{ filter.false_value.value }}" id="Filter-{{ filter.param_name }}" {% if filter.false_value.active %}checked{% endif %} {% if filter.false_value.count == 0 and filter.false_value.active == false %}disabled{% endif %} onchange="this.form.submit()">
+                            {{ filter.false_value.label }}
+                          </label>
+                        </li>
+                      </ul>
+                    {% when 'list' %}
+                      <ul>
+                        {% for filter_value in filter.values %}
+                          <li>
+                            <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}">
+                              <input type="radio" name="{{ filter.param_name }}" value="{{ filter_value.value }}" id="Filter-{{ filter.param_name }}-{{ forloop.index }}" {% if filter_value.active %}checked{% endif %} {% if filter_value.count == 0 and filter_value.active == false %}disabled{% endif %} onchange="this.form.submit()">
+                              {{ filter_value.label }}
+                            </label>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% when 'price_range' %}
+                      <div class="filter-group-display__price-range">
+                        <div class="filter-group-display__price-range-from">
+                          <label for="Filter-{{ filter.min_value.param_name }}">From</label>
+                          <span>{{ cart.currency.symbol }}</span>
+                          <input name="{{ filter.min_value.param_name }}" id="Filter-{{ filter.min_value.param_name }}" {% if filter.min_value.value %} value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" {% endif %} type="number" placeholder="0" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" onchange="this.form.submit()">
+                        </div>
+                        <div class="filter-group-display__price-range-to">
+                          <label for="Filter-{{ filter.max_value.param_name }}">To</label>
+                          <span>{{ cart.currency.symbol }}</span>
+                          <input name="{{ filter.max_value.param_name }}" id="Filter-{{ filter.max_value.param_name }}" {% if filter.max_value.value %} value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" {% endif %} type="number" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" onchange="this.form.submit()">
+                        </div>
+                      </div>
+                  {% endcase %}
+                </div>
+              </div>
+            {% endfor %}
+            <p class="mobile-clearall" style="background: transparent;">
+              <a href="{{ routes.search_url }}?sort_by={{ search.sort_by }}&q={{ search.terms }}">
+                Clear All ({{ filter_count }})
+              </a>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      {% assign filter_count = 0 %}
+      {% assign active_filters = "" %}
+      {% for filter in search.filters %}
+        {% if filter.type == "price_range" %}
+          {% if filter.min_value.value or filter.max_value.value %}
+            {% assign filter_count = filter_count | plus: 1 %}
+            {% assign min_value = filter.min_value.value | default: 0 %}
+            {% assign max_value = filter.max_value.value | default: filter.range_max %}
+            {% capture filter_html %}
+              <p class="filter-option">
+                <a href="{{ filter.url_to_remove }}">
+                  {{ min_value | money }} - {{ max_value | money }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                  </svg>
+                </a>
+              </p>
+            {% endcapture %}
+            {% assign active_filters = active_filters | append: filter_html %}
+          {% endif %}
+        {% else %}
+          {% for filter_value in filter.values %}
+            {% if filter_value.active %}
+              {% assign filter_count = filter_count | plus: 1 %}
+              {% capture filter_html %}
+                <p class="filter-option">
+                  <a href="{{ filter_value.url_to_remove }}">
+                    {{ filter_value.label }}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                    </svg>
+                  </a>
+                </p>
+              {% endcapture %}
+              {% assign active_filters = active_filters | append: filter_html %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+      {% if filter_count > 0 %}
+        <div class="reset">
+          <div class="filter-option-container">
+            {{ active_filters | safe }}
+          </div>
+            <p class="clearall" style="background: transparent;">
+            <a href="{{ routes.search_url }}?sort_by={{ search.sort_by }}&q={{ search.terms }}">
+              Clear All ({{ filter_count }})
+            </a>
+          </p>
+        </div>
+      {% endif %}
          </div>
     <div class="sortby" id="sortby">
       <button id="sortbtn">
@@ -37,6 +157,87 @@
         sortby.classList.toggle("show");
         this.classList.toggle("active");
     };
+
+    function toggleDropdown(id) {
+  var dropdown = document.getElementById(id);
+  var chevronIcon = dropdown.previousElementSibling.querySelector('.chevron-icon');
+  dropdown.classList.toggle("show");
+  chevronIcon.classList.toggle("active");
+}
+
+function filterFunction() {
+  var filterDropdownContent = document.getElementById("filter-dropdown-content");
+  var overlay = document.querySelector(".overlay");
+  var filterDiv = document.querySelector(".filter");
+
+  if (filterDropdownContent.style.left === "0px") {
+    filterDropdownContent.style.left = "-500px";
+    setTimeout(() => {
+      filterDropdownContent.classList.remove("show");
+      overlay.classList.remove("active");
+      filterDiv.classList.remove("open");
+    }, 300);
+  } else {
+    filterDropdownContent.classList.add("show");
+    setTimeout(() => {
+      filterDropdownContent.style.left = "0px";
+      if (window.innerWidth <= 840) {
+        filterDropdownContent.style.maxHeight = `calc(100vh - ${filterDiv.getBoundingClientRect().top}px)`;
+      } else {
+        filterDropdownContent.style.maxHeight = `calc(100vh - ${filterDiv.getBoundingClientRect().bottom}px)`;
+      }
+      overlay.classList.add("active");
+      filterDiv.classList.add("open");
+    }, 10);
+  }
+}
+
+function handleCheckboxChange(event) {
+  event.target.closest('form').submit();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var checkboxes = document.querySelectorAll('.filter-options input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', handleCheckboxChange);
+  });
+});
+
+function toggleSortDropdown() {
+  var dropdown = document.getElementById("myDropdown");
+  dropdown.classList.toggle("show");
+  var chevronIcon = document.getElementById("sortIcon");
+  chevronIcon.classList.toggle("active");
+}
+
+window.onclick = function(event) {
+  var filterDropdownContent = document.getElementById("filter-dropdown-content");
+  var overlay = document.querySelector(".overlay");
+  var filterDiv = document.querySelector(".filter");
+
+  if (!event.target.matches('.filterbtn') && !event.target.closest('.filter-dropdown-content')) {
+    if (filterDropdownContent.classList.contains('show')) {
+      filterDropdownContent.style.left = "-500px";
+      setTimeout(() => {
+        filterDropdownContent.classList.remove("show");
+        overlay.classList.remove("active");
+        filterDiv.classList.remove("open");
+      }, 300);
+    }
+  }
+
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+        var chevronIcon = document.querySelector(".chevron-icon");
+        chevronIcon.classList.remove("active");
+      }
+    }
+  }
+}
      
 </script>
   {% schema %}
